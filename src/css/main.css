@@ -1,0 +1,89 @@
+/*
+ * SPDX-FileCopyrightText: 2024 André Jaenisch
+ *
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+*/
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  min-height: 95vh;
+  place-items: center;
+}
+
+section {
+  max-width: 60ch;
+  width: 100%;
+}
+
+section:empty {
+  display: none;
+}
+
+[data-component$="-section"] {
+  margin-inline: 1em;
+}
+
+a {
+  color: inherit;
+}
+
+p {
+  margin: 0 0 1em 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+select {
+  width: 100%;
+}
+
+button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+body {
+  background: var(--bg);
+  color: var(--c);
+}
+
+body.theme-light {
+  --bg: #eee;
+  --c: #222;
+}
+
+body.theme-dark {
+  --bg: #222;
+  --c: #eee;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #eee;
+    --c: #222;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #222;
+    --c: #eee;
+  }
+}

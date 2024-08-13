@@ -1,0 +1,5 @@
+reuse lint
+yarn run types
+yarn run lint
+yarn run test --run
+yarn run format

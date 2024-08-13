@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 André Jaenisch
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+version = 1
+SPDX-PackageName = "js13kgames-2024"
+SPDX-PackageSupplier = "André Jaenisch <andre.jaenisch@posteo.de>"
+SPDX-PackageDownloadLocation = "https://code.jaenis.ch/js13kgames/js13kgames-2024"
+
+# A recursive glob of all files and directories in types/,
+# and the REUSE information of these files is overridden.
+[[annotations]]
+path = ".husky/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2024 André Jaenisch"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+# A recursive glob of all files and directories in types/,
+# and the REUSE information of these files is overridden.
+[[annotations]]
+path = "types/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2024 André Jaenisch"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
