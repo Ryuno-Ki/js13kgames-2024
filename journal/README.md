@@ -13,3 +13,4 @@ I plan to copy-paste it to the Fediverse and on Itch.io as well.
 
 - [13th August 2024](./2024-08-13.md)
 - [14th August 2024](./2024-08-14.md)
+- [15th August 2024](./2024-08-15.md)
