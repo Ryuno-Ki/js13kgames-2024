@@ -21,3 +21,18 @@ path = "types/**"
 precedence = "override"
 SPDX-FileCopyrightText = "2024 André Jaenisch"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+# Downloaded from https://imslp.org/wiki/Verkl%C3%A4rte_Nacht,_Op.4_(Schoenberg,_Arnold)
+# It is part of the Public Domain
+[[annotations]]
+path = "journal/IMSLP03938-Schönberg_Verklärte_Nacht_for_String_Sextett2.pdf"
+precedence = "override"
+SPDX-FileCopyrightText = "Arnold Schönberg"
+SPDX-License-Identifier = "CC0-1.0"
+
+# Downloaded from https://abcplus.sourceforge.net/abcplus_en.pdf
+[[annotations]]
+path = "journal/abcplus_en.pdf"
+precedence = "override"
+SPDX-FileCopyrightText = "Guido Gonzato"
+SPDX-License-Identifier = "GFDL-1.3-only"
