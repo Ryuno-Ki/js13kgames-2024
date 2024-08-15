@@ -4,60 +4,50 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-const { statSync } = require("node:fs");
-const { join } = require("node:path");
-const { promisify } = require("node:util");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const exec = promisify(require("node:child_process").exec);
-const zip = promisify(require("zip-dir"));
+const zip = require("zip-dir");
+
+const toot = require("./toot-size.cjs");
 
 const MAX_BYTES = 13312;
-const distFolder = join(__dirname, "..", "public");
-const filepath = join(__dirname, "..", "js13kgames.zip");
+const distFolder = path.join(__dirname, "..", "public");
+const filename = path.join(__dirname, "..", "js13kgames.zip");
 
-function zipDirectory(directory, targetFile) {
-  return zip(directory, { saveTo: targetFile });
+function zipDirectory(directory, targetFile, callback) {
+  zip(distFolder, { saveTo: targetFile }, (error) => {
+    if (error) {
+      process.exit(2);
+    }
+    console.log(`Zipped ${directory}`);
+    callback();
+  });
 }
 
-function compressHarder(zipFile) {
-  // 100 iterations have been manually determined to be the maximum I can use
-  // with an effect on the size
-  return exec(`advzip -z -4 -i 100 -p ${zipFile}`);
-}
-
-function getFileSizeInBytes(filepath) {
-  return statSync(filepath).size;
+function getFilesizeInBytes(filename) {
+  return fs.statSync(filename).size;
 }
 
 function fileIsUnderMaxSize(fileSize) {
   return fileSize <= MAX_BYTES;
 }
 
-zipDirectory(distFolder, filepath)
-  .then(() =>
-    console.log(`Zipped ${filepath} (${getFileSizeInBytes(filepath)})`),
-  )
-  .then(() => compressHarder(filepath))
-  .then(() =>
-    console.log(`Recompressed ${filepath} (${getFileSizeInBytes(filepath)})`),
-  )
-  .catch((error) => {
-    console.error(error);
-    process.exit(2);
-  })
-  .then(() => {
-    const fileSize = getFileSizeInBytes(filepath);
-    const fileSizeDifference = Math.abs(MAX_BYTES - fileSize);
+zipDirectory(distFolder, filename, async () => {
+  fileSize = getFilesizeInBytes(filename);
+  fileSizeDifference = Math.abs(MAX_BYTES - fileSize);
 
-    if (fileIsUnderMaxSize(fileSize)) {
-      console.log(
-        `The file is ${fileSize} bytes (${fileSizeDifference} bytes under the limit).`,
-      );
-      process.exit(0);
-    } else {
-      console.log(
-        `The file is ${fileSize} bytes (${fileSizeDifference} bytes over the limit).`,
-      );
-      process.exit(1);
-    }
-  });
+  await toot(fileSize);
+
+  if (fileIsUnderMaxSize(fileSize)) {
+    console.log(
+      `The file is ${fileSize} bytes (${fileSizeDifference} bytes under the limit).`,
+    );
+    process.exit(0);
+  } else {
+    console.log(
+      `The file is ${fileSize} bytes (${fileSizeDifference} bytes over the limit).`,
+    );
+    process.exit(1);
+  }
+});
