@@ -16,15 +16,24 @@
 /** @typedef {G} G */
 
 /**
- * Builder to generate HTML from an well-defined object structure.
+ * Helper function to generate DOM elements from a data structure.
  *
- * @param {G} gil
- * @returns {HTMLElement}
+ * The last argument is basically arguments of this function.
+ *
+ * @argument {G} gil
+ * @returns {HTMLElement | SVGElement}
  */
 export function el(gil) {
   const [name, classList, attributes, text, children] = gil;
+  /** @type {HTMLElement | SVGElement} */
+  let element;
+  const svgElements = ["circle", "g", "polygon", "svg", "text", "tspan"];
 
-  const element = document.createElement(/** @type {string} */ (name));
+  if (svgElements.includes(/** @type {string} */ (name))) {
+    element = document.createElementNS("http://www.w3.org/2000/svg", name);
+  } else {
+    element = document.createElement(name);
+  }
 
   /** @type {Array<string>} */
   const classNames = classList || /** @type {Array<string>} */ ([]);
@@ -32,10 +41,7 @@ export function el(gil) {
 
   Object.entries(
     /** @type {Record<string, string>} */ (attributes || {}),
-  ).forEach((attribute) => {
-    const [key, value] = attribute;
-    element.setAttribute(key, value);
-  });
+  ).forEach(([key, value]) => element.setAttribute(key, value));
 
   element.textContent = text || "";
 

@@ -5,10 +5,12 @@
  */
 /** @typedef {G} G */
 /**
- * Builder to generate HTML from an well-defined object structure.
+ * Helper function to generate DOM elements from a data structure.
  *
- * @param {G} gil
- * @returns {HTMLElement}
+ * The last argument is basically arguments of this function.
+ *
+ * @argument {G} gil
+ * @returns {HTMLElement | SVGElement}
  */
-export function el(gil: G): HTMLElement;
+export function el(gil: G): HTMLElement | SVGElement;
 export type G = G;

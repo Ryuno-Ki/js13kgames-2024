@@ -4,5 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
 */
 
-@import "./main.css";
-@import "./level.css";
+svg {
+  display: block;
+  height: 50vmin;
+  width: 50vmin;
+  background-color: var(--c);
+}
