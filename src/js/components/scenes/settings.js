@@ -6,6 +6,7 @@
 
 import { clone } from "../../helpers/clone.js";
 import { el } from "../el.js";
+import { playMusic } from "../../helpers/melody.js";
 
 /**
  * Component to allow for tweaking the interface (visual and audio).
@@ -18,6 +19,7 @@ export function sectionSettings(targetElement, state) {
   const element = clone(targetElement);
   element.innerHTML = "";
 
+  playMusic();
   if (state.activeScene === "settings-section") {
     element.appendChild(
       el(
