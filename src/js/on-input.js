@@ -6,6 +6,7 @@
 
 import store from "./state/store.js";
 import { setPlayernameAction } from "./state/actions/set-playername.js";
+import { updatePromptAction } from "./state/actions/update-prompt.js";
 import { draw } from "./draw.js";
 
 /**
@@ -21,6 +22,12 @@ export async function onInput(event) {
 
   if (target.id === "playername") {
     await store.dispatch(setPlayernameAction(target.value));
+    draw();
+  }
+
+  if (target.id === "prompt") {
+    const prompt = /** @type {string} */ (target.value);
+    await store.dispatch(updatePromptAction(prompt));
     draw();
   }
 }

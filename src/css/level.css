@@ -6,7 +6,13 @@
 
 svg {
   display: block;
-  height: 50vmin;
-  width: 50vmin;
+  height: auto;
+  width: 100%;
   background-color: var(--c);
+  cursor: default;
+}
+
+label[for="prompt"] {
+  display: block;
+  margin-block-start: 1em;
 }

@@ -9,12 +9,14 @@ import {
   SET_COLOR_PREFERENCE_ACTION,
   SET_PLAYERNAME_ACTION,
   SWITCH_TO_SCENE_ACTION,
+  UPDATE_PROMPT_ACTION,
 } from "../../constants.js";
 import { initialState } from "../initial-state.js";
 import { resetReducer } from "./reset.js";
 import { setColorPreferenceReducer } from "./set-color-preference.js";
 import { setPlayernameReducer } from "./set-playername.js";
 import { switchToSceneReducer } from "./switch-to-scene.js";
+import { updatePromptReducer } from "./update-prompt.js";
 
 /**
  * Combined reducer.
@@ -61,6 +63,15 @@ export function reducer(state, action) {
     return switchToSceneReducer(
       state,
       /** @type {import('../actions/switch-to-scene.js').SWITCH_TO_SCENE_ACTION['payload']} */ (
+        payload
+      ),
+    );
+  }
+
+  if (type === UPDATE_PROMPT_ACTION) {
+    return updatePromptReducer(
+      state,
+      /** @type {import('../actions/update-prompt.js').UPDATE_PROMPT_ACTION['payload']} */ (
         payload
       ),
     );

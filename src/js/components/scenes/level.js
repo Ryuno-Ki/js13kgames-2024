@@ -27,7 +27,7 @@ export function sectionLevel(targetElement, state) {
           {},
           "",
           [
-            ["h1", [], {}, "Level"],
+            ["h1", [], {}, `Level in ${state.activeRoom}`],
             [
               "svg",
               [],
@@ -179,6 +179,33 @@ export function sectionLevel(targetElement, state) {
                   [["tspan", ["sr-only"], {}, "thumbs down"]],
                 ],
               ],
+            ],
+            [
+              "label",
+              [],
+              { for: "prompt" },
+              "",
+              [
+                ["span", ["sr-only"], {}, "What do you want to do?"],
+                [
+                  "input",
+                  [],
+                  {
+                    type: "text",
+                    id: "prompt",
+                    name: "prompt",
+                    value: state.prompt,
+                    list: "possible-commands",
+                  },
+                ],
+              ],
+            ],
+            [
+              "datalist",
+              [],
+              { id: "possible-commands" },
+              "",
+              state.possiblePrompts.map((value) => ["option", [], { value }]),
             ],
           ],
         ]),

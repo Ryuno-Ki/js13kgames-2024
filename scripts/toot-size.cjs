@@ -10,7 +10,6 @@ const { createRestAPIClient } = require("masto");
 dotenv.config();
 
 const GTS_TOKEN = process.env.GTS_TOKEN;
-console.log(GTS_TOKEN);
 
 module.exports = async function run(sz) {
   const masto = await createRestAPIClient({

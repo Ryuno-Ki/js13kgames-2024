@@ -19,7 +19,7 @@ export function sectionSettings(targetElement, state) {
   const element = clone(targetElement);
   element.innerHTML = "";
 
-  playMusic();
+  //playMusic();
   if (state.activeScene === "settings-section") {
     element.appendChild(
       el(

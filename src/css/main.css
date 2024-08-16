@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
 */
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
@@ -72,6 +76,11 @@ body.theme-light {
 body.theme-dark {
   --bg: #222;
   --c: #eee;
+}
+
+.f {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* Kudos https://webaim.org/techniques/css/invisiblecontent/ */
