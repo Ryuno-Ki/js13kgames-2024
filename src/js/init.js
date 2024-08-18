@@ -14,6 +14,10 @@ import { sectionWorldselection } from "./components/scenes/world-selection.js";
 import { sectionWin } from "./components/scenes/win.js";
 import { sectionGameOver } from "./components/scenes/game-over.js";
 
+import { canvas } from "./components/canvas.js";
+import { prompt } from "./components/prompt.js";
+import { suggestions } from "./components/suggestions.js";
+
 import { registerEventListeners } from "./register-event-listeners.js";
 import { draw } from "./draw.js";
 import { add } from "./registry.js";
@@ -32,6 +36,10 @@ export async function init() {
   add("world-section", sectionWorldselection);
   add("win-section", sectionWin);
   add("game-over-section", sectionGameOver);
+
+  add("canvas", canvas);
+  add("prompt", prompt);
+  add("suggestions", suggestions);
 
   registerEventListeners();
   await draw();
