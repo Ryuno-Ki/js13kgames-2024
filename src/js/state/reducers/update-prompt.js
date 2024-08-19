@@ -21,6 +21,13 @@ export function updatePromptReducer(state, payload) {
   const activities = state.activities[state.activeRoom];
 
   if (command.toLowerCase().trim() === "go") {
+    possiblePrompts =
+      activities[
+        /** @type {import('../initial-state.js').Command} */ (
+          command.toLowerCase().trim()
+        )
+      ] || [];
+
     if (activities.go.includes(options.join(" "))) {
       activeRoom = /** @type {import('../initial-state.js').Room} */ (
         options.join(" ")
