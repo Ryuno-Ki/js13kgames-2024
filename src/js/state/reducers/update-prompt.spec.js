@@ -77,7 +77,9 @@ describe("updatePromptReducer", function () {
 
       // Act
       const newState = updatePromptReducer(state, payload);
-      const possibleRooms = state.activities[state.activeRoom].go;
+      const possibleRooms = state.facts.places.find(
+        (r) => r.name == state.activeRoom,
+      ).connections;
 
       // Assert
       expect(newState).not.to.equal(state);
@@ -96,47 +98,208 @@ describe("updatePromptReducer", function () {
       expect(newState).not.to.equal(state);
       expect(newState.prompt).to.equal(payload.prompt);
     });
+
+    describe("when the prompt matches with 'go outside'", function () {
+      it("should change the active room", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "go outside" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(newState.activeRoom).to.equal("outside");
+      });
+
+      it("should clear possible prompts", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "go outside" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(newState.possiblePrompts).to.deep.equal([]);
+      });
+
+      it("should clear the prompt", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "go outside" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(newState.prompt).to.equal("");
+      });
+    });
   });
 
-  describe("when the prompt matches with 'go outside'", function () {
-    it("should change the active room", function () {
+  describe("when the prompt starts with 'pickup'", function () {
+    it("should suggest possible items", function () {
       // Arrange
       const state = store.getState();
-      const payload = { prompt: "go outside" };
+      const payload = { prompt: "pickup" };
 
       // Act
       const newState = updatePromptReducer(state, payload);
 
       // Assert
       expect(newState).not.to.equal(state);
-      expect(newState.activeRoom).to.equal("outside");
+      expect(newState.possiblePrompts).to.deep.equal(["1 apple"]);
     });
 
-    it("should clear possible prompts", function () {
+    it("should not change the prompt", function () {
       // Arrange
       const state = store.getState();
-      const payload = { prompt: "go outside" };
+      const payload = { prompt: "pickup" };
 
       // Act
       const newState = updatePromptReducer(state, payload);
-      const possibleRooms = state.activities[state.activeRoom].go;
 
       // Assert
       expect(newState).not.to.equal(state);
-      expect(newState.possiblePrompts).to.deep.equal([]);
+      expect(newState.prompt).to.equal(payload.prompt);
     });
 
-    it("should clear the prompt", function () {
+    it("should not change your inventory", function () {
       // Arrange
       const state = store.getState();
-      const payload = { prompt: "go outside" };
+      const payload = { prompt: "pickup" };
 
       // Act
       const newState = updatePromptReducer(state, payload);
+      const yourInventory = newState.facts.people.find(
+        (p) => p.name === "Yu",
+      ).inventory;
 
       // Assert
       expect(newState).not.to.equal(state);
-      expect(newState.prompt).to.equal("");
+      expect(yourInventory).to.deep.equal(state.facts.people[0].inventory);
+    });
+
+    describe("when the prompt matches with 'pickup 1 apple'", function () {
+      it("should clear possible prompts", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "pickup 1 apple" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(newState.possiblePrompts).to.deep.equal([]);
+      });
+
+      it("should clear the prompt", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "pickup 1 apple" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(newState.prompt).to.equal("");
+      });
+
+      it("should change your inventory", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "pickup 1 apple" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+        const yourInventory = newState.facts.people.find(
+          (p) => p.name === "Yu",
+        ).inventory;
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(yourInventory).not.to.deep.equal(
+          state.facts.people[0].inventory,
+        );
+        expect(yourInventory).toMatchObject([
+          {
+            name: "apple",
+            quantity: 1,
+          },
+        ]);
+      });
+
+      it("should change the room items", function () {
+        // Arrange
+        const state = store.getState();
+        const payload = { prompt: "pickup 1 apple" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+        const homeItems = newState.facts.places.find(
+          (r) => r.name === "home",
+        ).items;
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(homeItems).not.to.deep.equal(state.facts.places[0].items);
+        expect(homeItems).toEqual([]);
+      });
+    });
+
+    describe("when the prompt matches with 'pickup 20 apples'", function () {
+      it("should pickup as much as possible", function () {
+        // Arrange
+        const state = Object.assign({}, store.getState(), {
+          activeRoom: "outside",
+        });
+        const payload = { prompt: "pickup 20 apples" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+        const yourInventory = newState.facts.people.find(
+          (p) => p.name === "Yu",
+        ).inventory;
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(yourInventory).not.to.deep.equal(
+          state.facts.people[0].inventory,
+        );
+        expect(yourInventory).toMatchObject([
+          {
+            name: "apple",
+            quantity: 10,
+          },
+        ]);
+      });
+
+      it("should empty the room items", function () {
+        // Arrange
+        const state = Object.assign({}, store.getState(), {
+          activeRoom: "outside",
+        });
+        const payload = { prompt: "pickup 20 apples" };
+
+        // Act
+        const newState = updatePromptReducer(state, payload);
+        const roomItems = newState.facts.places.find(
+          (r) => r.name === state.activeRoom,
+        ).items;
+
+        // Assert
+        expect(newState).not.to.equal(state);
+        expect(roomItems).not.to.deep.equal(state.facts.places[1].items);
+        expect(roomItems).toEqual(
+          state.facts.places[1].items.filter((item) => item.name !== "apple"),
+        );
+      });
     });
   });
 });

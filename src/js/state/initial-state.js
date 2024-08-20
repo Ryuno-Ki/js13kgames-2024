@@ -13,11 +13,44 @@
  */
 
 /**
- * @typedef {'home' | 'outside'} Room
+ * @typedef {object} Item
+ * @property {string} name
+ * @property {number} quantity
  */
 
 /**
- * @typedef {Record<Room, Record<Command, Array<*>>>} Activity
+ * @typedef {Array<Item>} Items
+ */
+
+/**
+ * @typedef {object} Person
+ * @property {Room['name']} home
+ * @property {Items} inventory
+ * @property {number} money
+ * @property {string} name
+ * @property {Room['name']} position
+ */
+
+/**
+ * @typedef {Array<Person>} People
+ */
+
+/**
+ * @typedef {object} Room
+ * @property {Array<Room['name']>} connections
+ * @property {Items} items
+ * @property {string} name
+ */
+
+/**
+ * @typedef {Array<Room>} Rooms
+ */
+
+/**
+ * @typedef {object} Facts
+ * @property {Items} items
+ * @property {People} people
+ * @property {Rooms} places
  */
 
 /**
@@ -27,10 +60,10 @@
 /**
  * @typedef {object} State
  * @property {ColorScheme} activeColorScheme
- * @property {Room} activeRoom
+ * @property {Room['name']} activeRoom
  * @property {import('../components/scenes/index.js').Scene} activeScene
  * @property {Scenario} activeScenario
- * @property {Activity} activities
+ * @property {Facts} facts
  * @property {string} playername
  * @property {Array<string>} possiblePrompts
  * @property {string} prompt
@@ -42,19 +75,62 @@ export const initialState = {
   activeRoom: "home",
   activeScenario: "",
   activeScene: "title-section",
-  activities: {
-    home: {
-      go: ["outside"],
-      pickup: [],
-      read: [],
-      use: [],
-    },
-    outside: {
-      go: ["home"],
-      pickup: [],
-      read: [],
-      use: [],
-    },
+  facts: {
+    items: [
+      {
+        name: "apple",
+        quantity: 20,
+      },
+      {
+        name: "wheat",
+        quantity: 100,
+      },
+    ],
+    people: [
+      {
+        home: "home",
+        inventory: [],
+        money: 1000,
+        name: "Yu",
+        position: "home",
+      },
+    ],
+    places: [
+      {
+        connections: ["outside"],
+        items: [
+          {
+            name: "apple",
+            quantity: 1,
+          },
+        ],
+        name: "home",
+      },
+      {
+        connections: ["home", "shop"],
+        items: [
+          {
+            name: "apple",
+            quantity: 10,
+          },
+          {
+            name: "wheat",
+            quantity: 80,
+          },
+        ],
+        name: "outside",
+      },
+      {
+        connections: ["outside"],
+        items: [
+          {
+            name: "wheat",
+            quantity: 20,
+          },
+        ],
+        name: "shop",
+      },
+    ],
   },
   playername: "",
   possiblePrompts: [],
