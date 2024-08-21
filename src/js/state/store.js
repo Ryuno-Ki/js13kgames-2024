@@ -8,6 +8,7 @@ import {
   SET_COLOR_PREFERENCE_ACTION,
   SWITCH_TO_SCENE_ACTION,
 } from "../constants.js";
+import { playMusic } from "../helpers/melody.js";
 import { resetAction } from "./actions/reset.js";
 import { reducer } from "./reducers/index.js";
 
@@ -54,6 +55,7 @@ class Store {
 
     if (action.type === SWITCH_TO_SCENE_ACTION) {
       this._setDocumentTitle();
+      //playMusic(this.getState());
     }
   }
 

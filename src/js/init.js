@@ -15,9 +15,9 @@ import { canvas } from "./components/canvas.js";
 import { prompt } from "./components/prompt.js";
 import { suggestions } from "./components/suggestions.js";
 
-import { registerEventListeners } from "./register-event-listeners.js";
 import { draw } from "./draw.js";
 import { add } from "./registry.js";
+import { registerEventListeners } from "./register-event-listeners.js";
 
 /**
  * Entry point to the game. Registers components and event listeners before

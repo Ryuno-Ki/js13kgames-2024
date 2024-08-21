@@ -6,8 +6,6 @@
 
 /** @typedef {'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'h' | 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'H' | 'B'} Note */
 
-// Have a singleton AudioContext
-const audioContext = new AudioContext();
 // Nested Array to allow for multiple instruments
 // Use a derivative of ABC notation
 // prettier-ignore
@@ -48,19 +46,21 @@ const NOTES = {
   B: 523.25, // C transposed by an octave.
 };
 
-let __isPlayingMusic = false;
-let __volume = 0.5;
-
 /**
  * Inspired by Maxim (but can't used `with` blocks in strict mode)
  * Taken from {@link https://xem.github.io/miniMusic/simple.html}
  *
  * Assume, each note is an eigth note (quaver). Apply multiplicator
  * @see {@link http://www.sengpielaudio.com/calculator-bpmtempotime.htm|BPM calculus}
+ *
+ * @argument {{ isPlayingMusic: import('../state/initial-state.js').State['isPlayingMusic'], volume: import('../state/initial-state.js').State['volume']}} args
  */
-export function playMusic() {
+export function playMusic({ isPlayingMusic, volume }) {
+  // Have a singleton AudioContext
+  const audioContext = new AudioContext();
+
   // See also https://www.artofcomposing.com/how-to-compose-music-101
-  if (melody.length > 0 && !__isPlayingMusic) {
+  if (melody.length > 0 && !isPlayingMusic) {
     let previousTime = 0.1;
 
     const bpm = 120 * 2; /* since quaver instead of crotchet */
@@ -80,22 +80,24 @@ export function playMusic() {
       };
     });
 
-    playOscillator(notes);
+    playOscillator(audioContext, volume, notes);
   }
 }
 
 /**
  * Helper function to figure out Web Audio API.
  *
- * @param {Array<{ hz: number, time: number }>} notes
+ * @argument {AudioContext} audioContext
+ * @argument {import('../state/initial-state.js').State['volume']} volume
+ * @argument {Array<{ hz: number, time: number }>} notes
  */
-function playOscillator(notes = []) {
+function playOscillator(audioContext, volume, notes = []) {
   let previousTime = 0.1;
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
   oscillator.connect(gain);
   // Volume can change over time
-  adjustVolume(gain);
+  adjustVolume(gain, volume);
 
   // Can be sine [default], square, sawtooth, triangle and custom
   oscillator.type = "square";
@@ -104,7 +106,7 @@ function playOscillator(notes = []) {
     oscillator.frequency.setValueAtTime(hz, previousTime);
     previousTime += time;
   });
-  playNote(oscillator);
+  playNote(audioContext, oscillator);
   oscillator.stop(previousTime + 0.1);
   adjustVolume(gain, 0, previousTime + 0.1);
 }
@@ -112,6 +114,7 @@ function playOscillator(notes = []) {
 /**
  * Helper function to smooth over Web Audio API
  *
+ * @private
  * @param {GainNode} gainNode
  * @param {number} [volume=0]
  * @param {number} [time=0]
@@ -120,7 +123,14 @@ function adjustVolume(gainNode, volume = 0, time = 0) {
   gainNode.gain.setValueAtTime(volume, time);
 }
 
-function playBuffer(time = 0) {
+/**
+ * Helper function to test an audio buffer.
+ *
+ * @private
+ * @argument {AudioContext} audioContext
+ * @argument {number} time
+ */
+function playBuffer(audioContext, time = 0) {
   const channels = 2; // Stereo
   const durationInSeconds = 3;
   const frameCount = audioContext.sampleRate * durationInSeconds;
@@ -145,16 +155,18 @@ function playBuffer(time = 0) {
 
   const source = audioContext.createBufferSource(); // Sound source
   source.buffer = audioBuffer;
-  playNote(source, time);
+  playNote(audioContext, source, time);
 }
 
 /**
  * Play a single note.
  *
+ * @private
+ * @argument {AudioContext} audioContext
  * @param {AudioScheduledSourceNode} source
  * @param {number} [time=0]
  */
-function playNote(source, time = 0) {
+function playNote(audioContext, source, time = 0) {
   source.connect(audioContext.destination); // Connect source with destination (speaker)
   source.start(time); // Play the source, used to be noteOn() or noteGrainOn()
 }

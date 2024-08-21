@@ -48,9 +48,11 @@
  * @property {import('../components/scenes/index.js').Scene} activeScene
  * @property {Scenario} activeScenario
  * @property {Facts} facts
+ * @property {boolean} isPlayingMusic
  * @property {string} playername
  * @property {Array<string>} possiblePrompts
  * @property {string} prompt
+ * @property {number} volume
  */
 /** @type {State} */
 export const initialState: State;
@@ -87,7 +89,9 @@ export type State = {
   activeScene: import("../components/scenes/index.js").Scene;
   activeScenario: Scenario;
   facts: Facts;
+  isPlayingMusic: boolean;
   playername: string;
   possiblePrompts: Array<string>;
   prompt: string;
+  volume: number;
 };
