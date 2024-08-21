@@ -60,7 +60,7 @@ describe("sectionNewgame", function () {
         .not.to.be.null;
     });
 
-    it("should not link to the world selection scene", function () {
+    it("should not link to the level selection scene", function () {
       // Arrange
       const targetElement = document.createElement("section");
       const state = Object.assign({}, store.getState(), {
@@ -71,7 +71,7 @@ describe("sectionNewgame", function () {
       const newGameScene = sectionNewgame(targetElement, state);
 
       // Assert
-      expect(newGameScene.querySelector('button[data-scene="world-section"]'))
+      expect(newGameScene.querySelector('button[data-scene="level-section"]'))
         .to.be.null;
     });
 
@@ -91,7 +91,7 @@ describe("sectionNewgame", function () {
         expect(newGameScene.textContent).to.contain("Christoph");
       });
 
-      it("should link to the world selection scene", function () {
+      it("should link to the level selection scene", function () {
         // Arrange
         const targetElement = document.createElement("section");
         const state = Object.assign({}, store.getState(), {
@@ -103,7 +103,7 @@ describe("sectionNewgame", function () {
         const newGameScene = sectionNewgame(targetElement, state);
 
         // Assert
-        expect(newGameScene.querySelector('button[data-scene="world-section"]'))
+        expect(newGameScene.querySelector('button[data-scene="level-section"]'))
           .not.to.be.null;
       });
     });

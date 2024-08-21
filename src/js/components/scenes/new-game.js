@@ -107,8 +107,8 @@ function showActionButtons(state) {
       [
         "button",
         ["action"],
-        { "data-scene": "world-section" },
-        "Next to World",
+        { "data-scene": "level-section" },
+        "Start playing",
       ],
       [
         "button",

@@ -10,9 +10,6 @@ import { sectionAbout } from "./components/scenes/about.js";
 import { sectionNewgame } from "./components/scenes/new-game.js";
 import { sectionLoadgame } from "./components/scenes/load-game.js";
 import { sectionLevel } from "./components/scenes/level.js";
-import { sectionWorldselection } from "./components/scenes/world-selection.js";
-import { sectionWin } from "./components/scenes/win.js";
-import { sectionGameOver } from "./components/scenes/game-over.js";
 
 import { canvas } from "./components/canvas.js";
 import { prompt } from "./components/prompt.js";
@@ -33,9 +30,6 @@ export async function init() {
   add("new-game-section", sectionNewgame);
   add("load-game-section", sectionLoadgame);
   add("level-section", sectionLevel);
-  add("world-section", sectionWorldselection);
-  add("win-section", sectionWin);
-  add("game-over-section", sectionGameOver);
 
   add("canvas", canvas);
   add("prompt", prompt);

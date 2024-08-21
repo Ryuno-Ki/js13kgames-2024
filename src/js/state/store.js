@@ -80,14 +80,11 @@ class Store {
     /** @type {Record<import('../components/scenes/index.js').Scene, string>} */
     const sceneToTitleMapping = {
       "about-section": "About",
-      "game-over-section": "You lost!",
       "level-section": "", // Empty on purpose
       "load-game-section": "Load Game",
       "new-game-section": "New Game",
       "settings-section": "Settings",
       "title-section": "", // Empty on purpose
-      "win-section": "You won!",
-      "world-section": "Choose your level",
     };
 
     const sceneTitle = sceneToTitleMapping[activeScene];
