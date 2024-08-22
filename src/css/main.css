@@ -10,17 +10,21 @@
 
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
 
 body {
-  display: grid;
-  min-height: 95vh;
-  place-items: center;
+  justify-content: space-between;
+}
+
+main {
+  min-height: 80vh;
 }
 
 section {
+  flex: 1;
   max-width: 60ch;
   width: 100%;
 }
@@ -29,7 +33,12 @@ section:empty {
   display: none;
 }
 
+audio {
+  width: 100%;
+}
+
 [data-component$="-section"] {
+  flex: 1;
   margin-inline: 1em;
 }
 
@@ -81,6 +90,15 @@ body.theme-dark {
 .f {
   display: flex;
   flex-wrap: wrap;
+}
+
+.fc {
+  flex-flow: column;
+}
+
+.ctr {
+  align-items: center;
+  justify-content: center;
 }
 
 /* Kudos https://webaim.org/techniques/css/invisiblecontent/ */
