@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import commonjs from "@rollup/plugin-commonjs";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 import license from "rollup-plugin-license";
 import sizes from "rollup-plugin-sizes";
@@ -27,8 +29,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
 
 const plugins =
   process.env.NODE_ENV === "development"
-    ? [sizes({ details: true }), visualizer()]
+    ? [
+        nodeResolve({ browser: true }),
+        commonjs(),
+        sizes({ details: true }),
+        visualizer(),
+      ]
     : [
+        nodeResolve({ browser: true }),
+        commonjs(),
         terser(),
         license({ banner: LICENSE_HEADER }),
         sizes({ details: true }),
