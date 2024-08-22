@@ -64,11 +64,9 @@
  * @property {import('../components/scenes/index.js').Scene} activeScene
  * @property {Scenario} activeScenario
  * @property {Facts} facts
- * @property {boolean} isPlayingMusic
  * @property {string} playername
  * @property {Array<string>} possiblePrompts
  * @property {string} prompt
- * @property {number} volume
  */
 
 /** @type {State} */
@@ -77,7 +75,6 @@ export const initialState = {
   activeRoom: "home",
   activeScenario: "",
   activeScene: "title-section",
-  isPlayingMusic: false,
   facts: {
     items: [
       {
@@ -138,5 +135,4 @@ export const initialState = {
   playername: "",
   possiblePrompts: [],
   prompt: "",
-  volume: 0.1,
 };

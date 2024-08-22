@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import audioBufferToWav from "audiobuffer-to-wav";
+
 /** @typedef {'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'h' | 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'H' | 'B'} Note */
 
 // Nested Array to allow for multiple instruments
@@ -52,15 +54,10 @@ const NOTES = {
  *
  * Assume, each note is an eigth note (quaver). Apply multiplicator
  * @see {@link http://www.sengpielaudio.com/calculator-bpmtempotime.htm|BPM calculus}
- *
- * @argument {{ isPlayingMusic: import('../state/initial-state.js').State['isPlayingMusic'], volume: import('../state/initial-state.js').State['volume']}} args
  */
-export function playMusic({ isPlayingMusic, volume }) {
-  // Have a singleton AudioContext
-  const audioContext = new AudioContext();
-
+export async function playMusic() {
   // See also https://www.artofcomposing.com/how-to-compose-music-101
-  if (melody.length > 0 && !isPlayingMusic) {
+  if (melody.length > 0) {
     let previousTime = 0.1;
 
     const bpm = 120 * 2; /* since quaver instead of crotchet */
@@ -80,93 +77,48 @@ export function playMusic({ isPlayingMusic, volume }) {
       };
     });
 
-    playOscillator(audioContext, volume, notes);
-  }
-}
+    const numberOfChannels = 1; // Mono
+    const durationInSeconds = notes
+      .map((n) => n.time)
+      .reduce((sum, summand) => sum + summand);
+    const sampleRate = 44100;
+    const frameCount = sampleRate * durationInSeconds;
 
-/**
- * Helper function to figure out Web Audio API.
- *
- * @argument {AudioContext} audioContext
- * @argument {import('../state/initial-state.js').State['volume']} volume
- * @argument {Array<{ hz: number, time: number }>} notes
- */
-function playOscillator(audioContext, volume, notes = []) {
-  let previousTime = 0.1;
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.connect(gain);
-  // Volume can change over time
-  adjustVolume(gain, volume);
+    // Have a singleton OfflineAudioContext
+    const audioContext = new OfflineAudioContext({
+      numberOfChannels,
+      length: sampleRate * durationInSeconds,
+      sampleRate,
+    });
 
-  // Can be sine [default], square, sawtooth, triangle and custom
-  oscillator.type = "square";
-  notes.forEach((note) => {
-    const { hz, time } = note;
-    oscillator.frequency.setValueAtTime(hz, previousTime);
-    previousTime += time;
-  });
-  playNote(audioContext, oscillator);
-  oscillator.stop(previousTime + 0.1);
-  adjustVolume(gain, 0, previousTime + 0.1);
-}
+    previousTime = 0.1;
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
 
-/**
- * Helper function to smooth over Web Audio API
- *
- * @private
- * @param {GainNode} gainNode
- * @param {number} [volume=0]
- * @param {number} [time=0]
- */
-function adjustVolume(gainNode, volume = 0, time = 0) {
-  gainNode.gain.setValueAtTime(volume, time);
-}
+    gain.gain.setValueAtTime(1, audioContext.currentTime);
 
-/**
- * Helper function to test an audio buffer.
- *
- * @private
- * @argument {AudioContext} audioContext
- * @argument {number} time
- */
-function playBuffer(audioContext, time = 0) {
-  const channels = 2; // Stereo
-  const durationInSeconds = 3;
-  const frameCount = audioContext.sampleRate * durationInSeconds;
+    // Can be sine [default], square, sawtooth, triangle and custom
+    oscillator.type = "square";
+    notes.forEach((note) => {
+      const { hz, time } = note;
+      oscillator.frequency.setValueAtTime(hz, previousTime);
+      previousTime += time;
+    });
 
-  const audioBuffer = audioContext.createBuffer(
-    channels,
-    frameCount,
-    audioContext.sampleRate,
-  );
+    const { currentTime } = audioContext;
+    oscillator.start(currentTime);
+    oscillator.stop(currentTime + durationInSeconds);
 
-  // Fill the buffer with white noise;
-  // just random values between -1.0 and 1.0
-  for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-    // This gives us the actual ArrayBuffer that contains the data
-    const nowBuffering = audioBuffer.getChannelData(channel);
-    for (let i = 0; i < audioBuffer.length; i++) {
-      // Math.random() is in [0; 1.0]
-      // audio needs to be in [-1.0; 1.0]
-      nowBuffering[i] = Math.random() * 2 - 1;
+    const buffer = await audioContext.startRendering();
+    const wavAsArrayBuffer = audioBufferToWav(buffer);
+    let binary = "";
+    const bytes = new Uint8Array(wavAsArrayBuffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
     }
+    return `data:audio/wav;base64,${window.btoa(binary)}`;
   }
-
-  const source = audioContext.createBufferSource(); // Sound source
-  source.buffer = audioBuffer;
-  playNote(audioContext, source, time);
-}
-
-/**
- * Play a single note.
- *
- * @private
- * @argument {AudioContext} audioContext
- * @param {AudioScheduledSourceNode} source
- * @param {number} [time=0]
- */
-function playNote(audioContext, source, time = 0) {
-  source.connect(audioContext.destination); // Connect source with destination (speaker)
-  source.start(time); // Play the source, used to be noteOn() or noteGrainOn()
 }

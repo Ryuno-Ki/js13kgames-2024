@@ -16,6 +16,7 @@ import { prompt } from "./components/prompt.js";
 import { suggestions } from "./components/suggestions.js";
 
 import { draw } from "./draw.js";
+import { playMusic } from "./helpers/melody.js";
 import { add } from "./registry.js";
 import { registerEventListeners } from "./register-event-listeners.js";
 
@@ -37,4 +38,7 @@ export async function init() {
 
   registerEventListeners();
   await draw();
+  const dataUrl = await playMusic();
+  const audio = document.querySelector("audio");
+  audio?.setAttribute("src", dataUrl || "");
 }
