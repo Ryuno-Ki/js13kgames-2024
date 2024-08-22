@@ -30,7 +30,10 @@
   "devDependencies": {
     "@commitlint/cli": "19.4.0",
     "@commitlint/config-conventional": "19.2.2",
+    "@rollup/plugin-commonjs": "26.0.1",
+    "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
+    "@types/audiobuffer-to-wav": "1.0.4",
     "@types/eslint": "9.6.0",
     "@vitest/coverage-v8": "2.0.5",
     "cssnano": "7.0.5",
@@ -52,5 +55,8 @@
     "typescript": "5.5.4",
     "vitest": "2.0.5",
     "zip-dir": "2.0.0"
+  },
+  "dependencies": {
+    "audiobuffer-to-wav": "1.0.0"
   }
 }
