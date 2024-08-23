@@ -20,11 +20,36 @@ export function suggestions(targetElement, state) {
   element.appendChild(
     el(
       /** @type {import('./el.js').G} */ ([
-        "datalist",
+        "label",
         [],
-        { id: "possible-commands" },
+        { for: "possible-commands" },
         "",
-        state.possiblePrompts.map((value) => ["option", [], { value }]),
+        [
+          ["span", ["sr-only"], {}, "Suggested prompts"],
+          [
+            "select",
+            [],
+            {
+              id: "possible-commands",
+              style: state.possiblePrompts.length > 0 ? "" : "display:none;",
+            },
+            "",
+            [
+              [
+                "option",
+                [],
+                { value: "", selected: "selected" },
+                "pick suggestion",
+              ],
+              ...state.possiblePrompts.map((value) => [
+                "option",
+                [],
+                { value: `${state.prompt} ${value}` },
+                value,
+              ]),
+            ],
+          ],
+        ],
       ]),
     ),
   );

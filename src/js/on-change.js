@@ -6,6 +6,7 @@
 
 import store from "./state/store.js";
 import { setColorPreferenceAction } from "./state/actions/set-color-preference.js";
+import { updatePromptAction } from "./state/actions/update-prompt.js";
 import { draw } from "./draw.js";
 
 /**
@@ -26,6 +27,12 @@ export async function onChange(event) {
         target.value
       );
     await store.dispatch(setColorPreferenceAction(colorScheme));
+    draw();
+  }
+
+  if (target.id === "possible-commands") {
+    const prompt = /** @type {string} */ (target.value);
+    await store.dispatch(updatePromptAction(prompt));
     draw();
   }
 }

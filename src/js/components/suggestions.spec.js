@@ -10,7 +10,7 @@ import store from "../state/store.js";
 import { suggestions } from "./suggestions.js";
 
 describe("suggestions", function () {
-  it("should generate a datalist", function () {
+  it("should generate a combobox", function () {
     // Arrange
     const targetElement = document.createElement("div");
     const state = store.getState();
@@ -19,16 +19,18 @@ describe("suggestions", function () {
     const component = suggestions(targetElement, state);
 
     // Assert
-    expect(component.firstElementChild).toBeInstanceOf(HTMLDataListElement);
-    expect(component.querySelectorAll("option")).toHaveLength(0);
+    expect(component.querySelector("select")).toBeInstanceOf(HTMLSelectElement);
+    expect(component.querySelectorAll("option")).toHaveLength(1);
   });
 
   describe("when possible prompts are suggested", function () {
     it("should have an option for each of them", function () {
       // Arrange
+      const prompt = "go";
       const possiblePrompts = ["home"];
       const targetElement = document.createElement("div");
       const state = Object.assign({}, store.getState(), {
+        prompt,
         possiblePrompts,
       });
 
@@ -36,12 +38,14 @@ describe("suggestions", function () {
       const component = suggestions(targetElement, state);
 
       // Assert
-      expect(component.firstElementChild).toBeInstanceOf(HTMLDataListElement);
-      expect(component.querySelectorAll("option")).toHaveLength(
-        possiblePrompts.length,
+      expect(component.querySelector("select")).toBeInstanceOf(
+        HTMLSelectElement,
       );
-      expect(component.querySelector("option").value).toEqual(
-        possiblePrompts[0],
+      expect(component.querySelectorAll("option")).toHaveLength(
+        1 + possiblePrompts.length,
+      );
+      expect(component.querySelector("option + option").value).toEqual(
+        `${prompt} ${possiblePrompts[0]}`,
       );
     });
   });

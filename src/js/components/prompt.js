@@ -33,7 +33,6 @@ export function prompt(targetElement, state) {
               type: "text",
               id: "prompt",
               name: "prompt",
-              list: "possible-commands",
             },
           ],
         ],

@@ -26,6 +26,8 @@ declare class Store {
    *
    * @private
    * @argument {import('./actions/index.js').ACTION} action
+   * @argument {import('./initial-state.js').State} oldState
+   * @argument {import('./initial-state.js').State} newState
    */
   private _applySideEffects;
   /**
@@ -41,5 +43,13 @@ declare class Store {
    * @private
    */
   private _setDocumentTitle;
+  /**
+   * Helper method to clear the prompt.
+   *
+   * @private
+   * @argument {import('./initial-state.js').State} oldState
+   * @argument {import('./initial-state.js').State} newState
+   */
+  private _maybeClearPrompt;
 }
 import { reducer } from "./reducers/index.js";

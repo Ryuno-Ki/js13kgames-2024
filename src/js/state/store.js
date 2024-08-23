@@ -7,6 +7,7 @@
 import {
   SET_COLOR_PREFERENCE_ACTION,
   SWITCH_TO_SCENE_ACTION,
+  UPDATE_PROMPT_ACTION,
 } from "../constants.js";
 import { resetAction } from "./actions/reset.js";
 import { reducer } from "./reducers/index.js";
@@ -30,8 +31,9 @@ class Store {
    * @argument {import('./actions/index.js').ACTION} action
    */
   async dispatch(action) {
+    const oldState = this.state;
     this.state = this.reducer(this.state, action);
-    this._applySideEffects(action);
+    this._applySideEffects(action, oldState, this.state);
   }
 
   /**
@@ -46,14 +48,20 @@ class Store {
    *
    * @private
    * @argument {import('./actions/index.js').ACTION} action
+   * @argument {import('./initial-state.js').State} oldState
+   * @argument {import('./initial-state.js').State} newState
    */
-  _applySideEffects(action) {
+  _applySideEffects(action, oldState, newState) {
     if (action.type === SET_COLOR_PREFERENCE_ACTION) {
       this._applyColorTheme(action.payload.colorScheme);
     }
 
     if (action.type === SWITCH_TO_SCENE_ACTION) {
       this._setDocumentTitle();
+    }
+
+    if (action.type === UPDATE_PROMPT_ACTION) {
+      this._maybeClearPrompt(oldState, newState);
     }
   }
 
@@ -90,6 +98,20 @@ class Store {
     const sceneTitle = sceneToTitleMapping[activeScene];
     const parts = [sceneTitle, "js13kgames 2024"];
     document.title = parts.filter(Boolean).join(" | ");
+  }
+
+  /**
+   * Helper method to clear the prompt.
+   *
+   * @private
+   * @argument {import('./initial-state.js').State} oldState
+   * @argument {import('./initial-state.js').State} newState
+   */
+  _maybeClearPrompt(oldState, newState) {
+    if (newState.possiblePrompts.length < oldState.possiblePrompts.length) {
+      const prompt = document.getElementById("prompt");
+      prompt?.setAttribute("value", "");
+    }
   }
 }
 
