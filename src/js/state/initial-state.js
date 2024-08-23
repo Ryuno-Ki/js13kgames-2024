@@ -67,6 +67,7 @@
  * @property {string} playername
  * @property {Array<string>} possiblePrompts
  * @property {string} prompt
+ * @property {string} seed
  */
 
 /** @type {State} */
@@ -135,4 +136,5 @@ export const initialState = {
   playername: "",
   possiblePrompts: [],
   prompt: "",
+  seed: "Triskaidekaphobia",
 };

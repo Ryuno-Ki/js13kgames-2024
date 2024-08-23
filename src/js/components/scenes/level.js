@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { prng_alea } from "esm-seedrandom";
+
 import { clone } from "../../helpers/clone.js";
 import { el } from "../el.js";
 
@@ -19,6 +21,8 @@ export function sectionLevel(targetElement, state) {
   element.innerHTML = "";
 
   if (state.activeScene === "level-section") {
+    const rng = prng_alea(state.seed);
+
     element.appendChild(
       el(
         /** @type {import('../el.js').G} */ ([
@@ -27,7 +31,7 @@ export function sectionLevel(targetElement, state) {
           {},
           "",
           [
-            ["h1", [], {}, `Level in ${state.activeRoom}`],
+            ["h1", [], {}, `Level in ${state.activeRoom}: ${rng.quick()}`],
             ["div", [], { "data-component": "canvas" }],
             ["div", [], { "data-component": "prompt" }],
             [

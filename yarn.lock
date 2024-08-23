@@ -2498,6 +2498,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esm-seedrandom@npm:3.0.5":
+  version: 3.0.5
+  resolution: "esm-seedrandom@npm:3.0.5"
+  checksum: 6fe5a33f31bce0e733814df884cdfc27812e4b04ce973f7cf008b7b8500ecab6706f54591841bd12dd3bdd9bbb153abf04fb8efd4934a5b0ab273bff114cdb3b
+  languageName: node
+  linkType: hard
+
 "espree@npm:^10.0.1, espree@npm:^10.1.0":
   version: 10.1.0
   resolution: "espree@npm:10.1.0"
@@ -3353,6 +3360,7 @@ __metadata:
     cssnano: "npm:7.0.5"
     dotenv: "npm:16.4.5"
     eslint: "npm:9.9.0"
+    esm-seedrandom: "npm:3.0.5"
     happy-dom: "npm:14.12.3"
     husky: "npm:9.1.4"
     markdownlint-cli: "npm:0.41.0"
