@@ -1,11 +1,11 @@
 /**
  * Component to draw the game world onto.
  *
- * @argument {HTMLElement} targetElement
+ * @argument {HTMLDivElement} targetElement
  * @argument {import('../state/initial-state.js').State} state
- * @returns {HTMLElement}
+ * @returns {HTMLDivElement}
  */
 export function canvas(
-  targetElement: HTMLElement,
+  targetElement: HTMLDivElement,
   state: import("../state/initial-state.js").State,
-): HTMLElement;
+): HTMLDivElement;

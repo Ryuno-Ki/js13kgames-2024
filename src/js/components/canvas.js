@@ -10,12 +10,23 @@ import { el } from "./el.js";
 /**
  * Component to draw the game world onto.
  *
- * @argument {HTMLElement} targetElement
+ * @argument {HTMLDivElement} targetElement
  * @argument {import('../state/initial-state.js').State} state
- * @returns {HTMLElement}
+ * @returns {HTMLDivElement}
  */
 export function canvas(targetElement, state) {
-  const element = clone(targetElement);
+  const element = /** @type {HTMLDivElement} */ (clone(targetElement));
+
+  /**
+   * Helper function to make the end event bubble.
+   *
+   * @argument {SVGAnimationElement} event
+   */
+  const onend = function (event) {
+    const { targetElement } = event;
+    const ev = new CustomEvent("end", { bubbles: true });
+    targetElement?.dispatchEvent(ev);
+  };
 
   element.appendChild(
     el(
@@ -29,6 +40,62 @@ export function canvas(targetElement, state) {
         },
         "",
         [
+          [
+            "def",
+            [],
+            {},
+            "",
+            [
+              [
+                "path",
+                [],
+                {
+                  id: "gramma",
+                  fill: "none",
+                  stroke: "lightgrey",
+                  d: "M85,70 L85,60 L15,60",
+                },
+              ],
+            ],
+          ],
+          [
+            "text",
+            [],
+            { x: 10, y: 40 },
+            "🛌",
+            [["tspan", ["sr-only"], {}, "You, sleeping in bed"]],
+          ],
+          [
+            "text",
+            [],
+            { x: 80, y: 90 },
+            "🚪",
+            [["tspan", ["sr-only"], {}, "A door"]],
+          ],
+          ,
+          [
+            "text",
+            [],
+            {},
+            "👵",
+            [
+              ["tspan", ["sr-only"], {}, "An old woman"],
+              [
+                "animateMotion",
+                [],
+                {
+                  dur: "3s",
+                  fill: "freeze",
+                  onend: `(${onend.toString()})(this)`,
+                  repeatCount: "1",
+                },
+                "",
+                [["mpath", [], { href: "#gramma" }]],
+              ],
+            ],
+          ],
+          ["g", [], { "data-component": "textbox" }],
+          /*
           [
             "text",
             [],
@@ -169,6 +236,7 @@ export function canvas(targetElement, state) {
             "👎",
             [["tspan", ["sr-only"], {}, "thumbs down"]],
           ],
+          */
         ],
       ]),
     ),
