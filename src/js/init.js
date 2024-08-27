@@ -12,8 +12,10 @@ import { sectionLoadgame } from "./components/scenes/load-game.js";
 import { sectionLevel } from "./components/scenes/level.js";
 
 import { canvas } from "./components/canvas.js";
+import { inventory } from "./components/inventory.js";
 import { prompt } from "./components/prompt.js";
 import { suggestions } from "./components/suggestions.js";
+import { textbox } from "./components/textbox.js";
 
 import { draw } from "./draw.js";
 import { playMusic } from "./helpers/melody.js";
@@ -33,8 +35,10 @@ export async function init() {
   add("level-section", sectionLevel);
 
   add("canvas", canvas);
+  add("inventory", inventory);
   add("prompt", prompt);
   add("suggestions", suggestions);
+  add("textbox", textbox);
 
   registerEventListeners();
   await draw();
