@@ -52,6 +52,7 @@
  * @property {Array<string>} possiblePrompts
  * @property {string} prompt
  * @property {string} seed
+ * @property {Array<string>} text
  */
 /** @type {State} */
 export const initialState: State;
@@ -92,4 +93,5 @@ export type State = {
   possiblePrompts: Array<string>;
   prompt: string;
   seed: string;
+  text: Array<string>;
 };
