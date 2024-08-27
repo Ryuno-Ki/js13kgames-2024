@@ -27,7 +27,19 @@ export function el(gil) {
   const [name, classList, attributes, text, children] = gil;
   /** @type {HTMLElement | SVGElement} */
   let element;
-  const svgElements = ["circle", "g", "polygon", "svg", "text", "tspan"];
+  const svgElements = [
+    "animate",
+    "animateMotion",
+    "circle",
+    "g",
+    "mpath",
+    "path",
+    "polygon",
+    "rect",
+    "svg",
+    "text",
+    "tspan",
+  ];
 
   if (svgElements.includes(/** @type {string} */ (name))) {
     element = document.createElementNS("http://www.w3.org/2000/svg", name);
