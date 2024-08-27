@@ -16,3 +16,13 @@ label[for="prompt"] {
   display: block;
   margin-block-start: 1em;
 }
+
+.tb {
+  font-size: 0.3rem;
+}
+
+.tb rect {
+  fill: var(--c);
+  stroke: var(--bg);
+  stroke-width: 1px;
+}
