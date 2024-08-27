@@ -6,6 +6,8 @@ export const RESET_ACTION: "RESET_ACTION";
 export const SET_COLOR_PREFERENCE_ACTION: "SET_COLOR_PREFERENCE_ACTION";
 /** Action type to set the chosen player name */
 export const SET_PLAYERNAME_ACTION: "SET_PLAYERNAME_ACTION";
+/** Action type to show the textbox */
+export const SHOW_TEXTBOX_ACTION: "SHOW_TEXTBOX_ACTION";
 /** Action type to switch to another scene */
 export const SWITCH_TO_SCENE_ACTION: "SWITCH_TO_SCENE_ACTION";
 /** Action type to update the prompt */
