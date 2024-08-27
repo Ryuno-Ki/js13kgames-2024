@@ -17,7 +17,7 @@ import { el } from "../el.js";
  * @returns {HTMLElement}
  */
 export function sectionLevel(targetElement, state) {
-  const element = clone(targetElement);
+  const element = /** @type {HTMLElement} */ (clone(targetElement));
   element.innerHTML = "";
 
   if (state.activeScene === "level-section") {
@@ -33,6 +33,7 @@ export function sectionLevel(targetElement, state) {
           [
             ["h1", [], {}, `Level in ${state.activeRoom}: ${rng.quick()}`],
             ["div", [], { "data-component": "canvas" }],
+            ["div", [], { "data-component": "inventory" }],
             ["div", [], { "data-component": "prompt" }],
             [
               "div",

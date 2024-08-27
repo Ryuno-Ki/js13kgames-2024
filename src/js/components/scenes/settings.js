@@ -15,7 +15,7 @@ import { el } from "../el.js";
  * @returns {HTMLElement}
  */
 export function sectionSettings(targetElement, state) {
-  const element = clone(targetElement);
+  const element = /** @type {HTMLElement} */ (clone(targetElement));
   element.innerHTML = "";
 
   if (state.activeScene === "settings-section") {

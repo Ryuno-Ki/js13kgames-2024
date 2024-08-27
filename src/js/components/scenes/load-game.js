@@ -16,7 +16,7 @@ import { el } from "../el.js";
  * @returns {HTMLElement}
  */
 export function sectionLoadgame(targetElement, state) {
-  const element = clone(targetElement);
+  const element = /** @type {HTMLElement} */ (clone(targetElement));
   element.innerHTML = "";
 
   if (state.activeScene === "load-game-section") {

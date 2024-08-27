@@ -10,12 +10,12 @@ import { el } from "./el.js";
 /**
  * Component to accept player prompt.
  *
- * @argument {HTMLElement} targetElement
+ * @argument {HTMLDivElement} targetElement
  * @argument {import('../state/initial-state.js').State} state
- * @returns {HTMLElement}
+ * @returns {HTMLDivElement}
  */
 export function prompt(targetElement, state) {
-  const element = clone(targetElement);
+  const element = /** @type {HTMLDivElement} */ (clone(targetElement));
 
   element.appendChild(
     el(

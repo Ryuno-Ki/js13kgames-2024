@@ -1,11 +1,11 @@
 /**
  * Component to accept player prompt.
  *
- * @argument {HTMLElement} targetElement
+ * @argument {HTMLDivElement} targetElement
  * @argument {import('../state/initial-state.js').State} state
- * @returns {HTMLElement}
+ * @returns {HTMLDivElement}
  */
 export function prompt(
-  targetElement: HTMLElement,
+  targetElement: HTMLDivElement,
   state: import("../state/initial-state.js").State,
-): HTMLElement;
+): HTMLDivElement;
