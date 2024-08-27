@@ -6,6 +6,7 @@
 
 import { onChange } from "./on-change.js";
 import { onClick } from "./on-click.js";
+import { onEnd } from "./on-end.js";
 import { onInput } from "./on-input.js";
 
 /**
@@ -20,6 +21,7 @@ import { onInput } from "./on-input.js";
 export function registerEventListeners() {
   on(/** @type {HTMLBodyElement} */ (document.body), "change", onChange);
   on(/** @type {HTMLBodyElement} */ (document.body), "click", onClick);
+  on(/** @type {HTMLBodyElement} */ (document.body), "end", onEnd);
   on(/** @type {HTMLBodyElement} */ (document.body), "input", onInput);
 }
 
@@ -28,7 +30,7 @@ export function registerEventListeners() {
  *
  * @private
  * @argument {HTMLBodyElement} el
- * @argument {'change' | 'click' | 'input'} eventType
+ * @argument {'change' | 'click' | 'end' | 'input'} eventType
  * @argument {EventListener} eventListener
  */
 function on(el, eventType, eventListener) {
