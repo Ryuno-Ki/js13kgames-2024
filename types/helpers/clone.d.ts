@@ -1,7 +1,7 @@
 /**
- * Helper function to deep clone an HTMLElement.
+ * Helper function to deep clone an HTMLElement or SVGElement.
  *
- * @argument {HTMLElement} el
- * @returns {HTMLElement}
+ * @argument {HTMLElement | SVGElement} el
+ * @returns {HTMLElement | SVGElement}
  */
-export function clone(el: HTMLElement): HTMLElement;
+export function clone(el: HTMLElement | SVGElement): HTMLElement | SVGElement;
