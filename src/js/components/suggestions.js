@@ -15,7 +15,7 @@ import { el } from "./el.js";
  * @returns {HTMLElement}
  */
 export function suggestions(targetElement, state) {
-  const element = clone(targetElement);
+  const element = /** @type {HTMLDivElement} */ (clone(targetElement));
 
   element.appendChild(
     el(
