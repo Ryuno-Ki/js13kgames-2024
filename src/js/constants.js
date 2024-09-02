@@ -6,6 +6,8 @@
 
 /** Key for reading from and writing to localStorage */
 export const LOCAL_STORAGE_KEY = "TBD";
+/** Action type to meet another person */
+export const MEET_ACTION = "MEET_ACTION";
 /** Action type to reset state to initial one */
 export const RESET_ACTION = "RESET_ACTION";
 /** Action type to switch color theme */

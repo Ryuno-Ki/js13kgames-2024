@@ -5,6 +5,7 @@
  */
 
 import {
+  MEET_ACTION,
   RESET_ACTION,
   SET_COLOR_PREFERENCE_ACTION,
   SET_PLAYERNAME_ACTION,
@@ -13,6 +14,7 @@ import {
   UPDATE_PROMPT_ACTION,
 } from "../../constants.js";
 import { initialState } from "../initial-state.js";
+import { meetReducer } from "./meet.js";
 import { resetReducer } from "./reset.js";
 import { setColorPreferenceReducer } from "./set-color-preference.js";
 import { setPlayernameReducer } from "./set-playername.js";
@@ -33,6 +35,15 @@ export function reducer(state, action) {
   }
 
   const { payload, type } = action;
+
+  if (type === MEET_ACTION) {
+    return meetReducer(
+      state,
+      /** @type {import('../actions/meet.js').MEET_ACTION['payload']} */ (
+        payload
+      ),
+    );
+  }
 
   if (type === RESET_ACTION) {
     return resetReducer(
