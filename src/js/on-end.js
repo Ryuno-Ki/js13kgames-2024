@@ -6,6 +6,7 @@
 
 import store from "./state/store.js";
 import { showTextboxAction } from "./state/actions/show-textbox.js";
+import { meetAction } from "./state/actions/meet.js";
 import { draw } from "./draw.js";
 
 /**
@@ -20,6 +21,7 @@ export async function onEnd(event) {
     return;
   }
 
+  await store.dispatch(meetAction());
   await store.dispatch(showTextboxAction());
   draw();
 }
