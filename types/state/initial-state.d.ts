@@ -13,15 +13,78 @@
  * @typedef {Array<Item>} Items
  */
 /**
- * @typedef {object} Person
- * @property {Room['name']} home
- * @property {Items} inventory
- * @property {number} money
- * @property {string} name
- * @property {Room['name']} position
+ * @typedef {{
+ *   "foaf:knows": [{ type: "uri", value: string }],
+ *   "foaf:name": [{ type: "literal", value: string }],
+ *   "rdf:type": [{ type: "uri", value: "http://xmlns.com/foaf/0.1/Person" }],
+ *   "schema:gameLocation": [{ type: "uri", value: string }],
+ *   "schema:seller": [{ type: "uri", value: string }]
+ * }} FoaFPerson
  */
 /**
- * @typedef {Array<Person>} People
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://schema.org/gameLocation" }],
+ *   "schema:geoTouches": Array<{ type: "uri", value: string }>,
+ *   "schema:name": [{ type: "literal", value: string }]
+ * }} SchemaGameLocation
+ */
+/**
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://schema.org/Offer" }],
+ *   "schema:name": [{ type: "literal", value: string }],
+ *   "schema:itemOffered": [{ type: "uri", value: string }],
+ *   "schema:offeredBy": [{ type: "uri", value: string }],
+ *   "schema:price": [{ type: "literal", value: number }]
+ * }} SchemaOffer
+ */
+/**
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#EcologicalAgent" }]
+ * } & FoaFPerson} ValueFlowsEcologicalAgent
+ */
+/**
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#EconomicEvent" }],
+ *   "vf:action": [{ type: "uri", value: string }],
+ *   "vf:provider": [{ type: "uri", value: string }],
+ *   "vf:receiver": [{ type: "uri", value: string }],
+ *   "vf:resourceConformsTo": [{ type: "uri", value: string }],
+ *   "vf:resourceInventoriedAs": [{ type: "uri", value: string }],
+ *   "vf:resourceQuantity": [{ type: "uri", value: string }],
+ *   "vf:toLocation": [{ type: "uri", value: string }]
+ * }} ValueFlowsEconomicEvent
+ */
+/**
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf/EconomicResource" }],
+ *   "vf:currentLocation": [{ type: "uri", value: string }],
+ *   "vf:name": [{ type: "literal", value: string }]
+ * }} ValueFlowsEconomicResource
+ */
+/**
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#Measure" }]
+ * }} ValueFlowsMeasure
+ */
+/**
+ * @typedef {{
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#raise" }],
+ *   "vf:accountingEffect": [{ type: "uri", value: string }],
+ *   "vf:accountableEffect": [{ type: "uri", value: string }],
+ *   "vf:createResource": [{ type: "uri", value: string }],
+ *   "vf:eventQuantity": [{ type: "uri", value: string }],
+ *   "vf:onhandEffect": [{ type: "uri", value: string }],
+ *   "vf:stateEffect": [{ type: "uri", value: string }],
+ * }} ValueFlowsRaiseAction
+ */
+/**
+ * @typedef {{
+ *  "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#ResourceSpecification" }]
+ *  "vf:name": [{ type: "literal", value: string }]
+ * }} ValueFlowsResourceSpecification
+ */
+/**
+ * @typedef {FoaFPerson | SchemaGameLocation | SchemaOffer | ValueFlowsEcologicalAgent | ValueFlowsEconomicEvent | ValueFlowsEconomicResource | ValueFlowsMeasure | ValueFlowsRaiseAction | ValueFlowsResourceSpecification} RdfDescription
  */
 /**
  * @typedef {object} Room
@@ -33,10 +96,7 @@
  * @typedef {Array<Room>} Rooms
  */
 /**
- * @typedef {object} Facts
- * @property {Items} items
- * @property {People} people
- * @property {Rooms} places
+ * @typedef {Record<string, RdfDescription>} Facts
  */
 /**
  * @typedef {'tutorial' | ''} Scenario
@@ -44,14 +104,15 @@
 /**
  * @typedef {object} State
  * @property {ColorScheme} activeColorScheme
- * @property {Room['name']} activeRoom
+ * @property {string} activeRoom
  * @property {import('../components/scenes/index.js').Scene} activeScene
  * @property {Scenario} activeScenario
  * @property {Facts} facts
  * @property {string} playername
  * @property {Array<string>} possiblePrompts
  * @property {string} prompt
- * @property {string} seed
+ * @property {string | object} seed
+ * @property {string | null} speaker
  * @property {Array<string>} text
  */
 /** @type {State} */
@@ -63,35 +124,260 @@ export type Item = {
   quantity: number;
 };
 export type Items = Array<Item>;
-export type Person = {
-  home: Room["name"];
-  inventory: Items;
-  money: number;
-  name: string;
-  position: Room["name"];
+export type FoaFPerson = {
+  "foaf:knows": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "foaf:name": [
+    {
+      type: "literal";
+      value: string;
+    },
+  ];
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "http://xmlns.com/foaf/0.1/Person";
+    },
+  ];
+  "schema:gameLocation": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "schema:seller": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
 };
-export type People = Array<Person>;
+export type SchemaGameLocation = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://schema.org/gameLocation";
+    },
+  ];
+  "schema:geoTouches": Array<{
+    type: "uri";
+    value: string;
+  }>;
+  "schema:name": [
+    {
+      type: "literal";
+      value: string;
+    },
+  ];
+};
+export type SchemaOffer = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://schema.org/Offer";
+    },
+  ];
+  "schema:name": [
+    {
+      type: "literal";
+      value: string;
+    },
+  ];
+  "schema:itemOffered": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "schema:offeredBy": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "schema:price": [
+    {
+      type: "literal";
+      value: number;
+    },
+  ];
+};
+export type ValueFlowsEcologicalAgent = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://w3id.org/valueflows/ont/vf#EcologicalAgent";
+    },
+  ];
+} & FoaFPerson;
+export type ValueFlowsEconomicEvent = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://w3id.org/valueflows/ont/vf#EconomicEvent";
+    },
+  ];
+  "vf:action": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:provider": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:receiver": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:resourceConformsTo": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:resourceInventoriedAs": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:resourceQuantity": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:toLocation": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+};
+export type ValueFlowsEconomicResource = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://w3id.org/valueflows/ont/vf/EconomicResource";
+    },
+  ];
+  "vf:currentLocation": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:name": [
+    {
+      type: "literal";
+      value: string;
+    },
+  ];
+};
+export type ValueFlowsMeasure = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://w3id.org/valueflows/ont/vf#Measure";
+    },
+  ];
+};
+export type ValueFlowsRaiseAction = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://w3id.org/valueflows/ont/vf#raise";
+    },
+  ];
+  "vf:accountingEffect": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:accountableEffect": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:createResource": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:eventQuantity": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:onhandEffect": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+  "vf:stateEffect": [
+    {
+      type: "uri";
+      value: string;
+    },
+  ];
+};
+export type ValueFlowsResourceSpecification = {
+  "rdf:type": [
+    {
+      type: "uri";
+      value: "https://w3id.org/valueflows/ont/vf#ResourceSpecification";
+    },
+  ];
+  "vf:name": [
+    {
+      type: "literal";
+      value: string;
+    },
+  ];
+};
+export type RdfDescription =
+  | FoaFPerson
+  | SchemaGameLocation
+  | SchemaOffer
+  | ValueFlowsEcologicalAgent
+  | ValueFlowsEconomicEvent
+  | ValueFlowsEconomicResource
+  | ValueFlowsMeasure
+  | ValueFlowsRaiseAction
+  | ValueFlowsResourceSpecification;
 export type Room = {
   connections: Array<Room["name"]>;
   items: Items;
   name: string;
 };
 export type Rooms = Array<Room>;
-export type Facts = {
-  items: Items;
-  people: People;
-  places: Rooms;
-};
+export type Facts = Record<string, RdfDescription>;
 export type Scenario = "tutorial" | "";
 export type State = {
   activeColorScheme: ColorScheme;
-  activeRoom: Room["name"];
+  activeRoom: string;
   activeScene: import("../components/scenes/index.js").Scene;
   activeScenario: Scenario;
   facts: Facts;
   playername: string;
   possiblePrompts: Array<string>;
   prompt: string;
-  seed: string;
+  seed: string | object;
+  speaker: string | null;
   text: Array<string>;
 };
