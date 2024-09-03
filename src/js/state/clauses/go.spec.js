@@ -16,9 +16,11 @@ describe("go", function () {
 
     // Act
     const rooms = go(state);
-    const possibleRooms = state.facts.places.find(
-      (r) => r.name == state.activeRoom,
-    ).connections;
+    const possibleRooms = state.facts[`#${state.activeRoom}`][
+      "schema:geoTouches"
+    ]
+      .map((gameLocation) => gameLocation.value)
+      .map((uri) => state.facts[uri]);
 
     // Assert
     expect(rooms).to.deep.equal(possibleRooms);
@@ -28,14 +30,16 @@ describe("go", function () {
     it("should list them all", function () {
       // Arrange
       const state = Object.assign({}, store.getState(), {
-        activeRoom: "outside",
+        activeRoom: "Outside",
       });
 
       // Act
       const rooms = go(state);
-      const possibleRooms = state.facts.places.find(
-        (r) => r.name == state.activeRoom,
-      ).connections;
+      const possibleRooms = state.facts[`#${state.activeRoom}`][
+        "schema:geoTouches"
+      ]
+        .map((gameLocation) => gameLocation.value)
+        .map((uri) => state.facts[uri]);
 
       // Assert
       expect(rooms).to.deep.equal(possibleRooms);

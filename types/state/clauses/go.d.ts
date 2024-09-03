@@ -2,8 +2,8 @@
  * Clause to determine possible places to go to.
  *
  * @argument {import('../initial-state.js').State} state
- * @returns {import('../initial-state.js').Room['connections']}
+ * @returns {Array<import('../initial-state.js').SchemaGameLocation>}
  */
 export function go(
   state: import("../initial-state.js").State,
-): import("../initial-state.js").Room["connections"];
+): Array<import("../initial-state.js").SchemaGameLocation>;

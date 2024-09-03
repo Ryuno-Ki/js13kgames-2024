@@ -8,9 +8,19 @@
  * Clause to determine possible places to go to.
  *
  * @argument {import('../initial-state.js').State} state
- * @returns {import('../initial-state.js').Room['connections']}
+ * @returns {Array<import('../initial-state.js').SchemaGameLocation>}
  */
 export function go(state) {
-  const room = state.facts.places.find((r) => r.name === state.activeRoom);
-  return room?.connections || [];
+  const activeRoom =
+    /** @type {import('../initial-state.js').SchemaGameLocation} */ (
+      state.facts[`#${state.activeRoom}`]
+    );
+
+  return activeRoom["schema:geoTouches"]
+    .map((gameLocation) => gameLocation.value)
+    .map((uri) => {
+      return /** @type {import('../initial-state.js').SchemaGameLocation} */ (
+        state.facts[uri]
+      );
+    });
 }
