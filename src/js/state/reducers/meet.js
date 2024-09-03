@@ -22,29 +22,59 @@ export function meetReducer(state, payload) {
   seed = rng.state();
 
   const index = /** @type {string} */ (`#${name}`);
+  const yu = /** @type {import('../initial-state.js').FoaFPerson} */ (
+    state.facts["#Yu"]
+  );
+
+  const appleInInnEvent =
+    /** @type {import('../initial-state.js').ValueFlowsEconomicEvent} */ ({
+      "rdf:type": [
+        {
+          value: "https://w3id.org/valueflows/ont/vf#EconomicEvent",
+          type: "uri",
+        },
+      ],
+      "vf:action": [{ value: "#RaiseAction", type: "uri" }],
+      "vf:provider": [{ value: "#AppleTree", type: "uri" }],
+      "vf:receiver": [{ value: index, type: "uri" }],
+      "vf:resourceConformsTo": [
+        {
+          value: "#Apple",
+          type: "uri",
+        },
+      ],
+      "vf:resourceInventoriedAs": [{ value: "#AppleInInn", type: "uri" }],
+      "vf:resourceQuantity": [{ value: "#One", type: "uri" }],
+      "vf:toLocation": [{ value: "#Inn", type: "uri" }],
+    });
+
+  const newPerson = /** @type {import('../initial-state.js').FoaFPerson} */ ({
+    "foaf:knows": [{ value: "#Yu", type: "uri" }],
+    "foaf:name": [{ value: name, type: "literal" }],
+    "rdf:type": [
+      {
+        value: "http://xmlns.com/foaf/0.1/Person",
+        type: "uri",
+      },
+    ],
+    "schema:gameLocation": [{ value: "#Inn", type: "uri" }],
+    "schema:seller": [{ value: "#AppleInInn", type: "uri" }],
+  });
 
   const facts = {
     ...state.facts,
     ["#Yu"]: {
-      ...state.facts["#Yu"],
-      ["foaf:knows"]: [
-        ...state.facts["#Yu"]["foaf:knows"],
+      ...yu,
+      "foaf:knows": [
+        ...yu["foaf:knows"],
         {
           value: index,
           type: "uri",
         },
       ],
     },
-    [index]: {
-      "foaf:knows": [{ value: "#Yu", type: "uri" }],
-      "foaf:name": [{ value: name, type: "literal" }],
-      "rdf:type": [
-        {
-          value: "http://xmlns.com/foaf/0.1/Person",
-          type: "uri",
-        },
-      ],
-    },
+    ["#AppleInInnEvent"]: appleInInnEvent,
+    [index]: newPerson,
   };
 
   return copy(state, { facts, seed });
