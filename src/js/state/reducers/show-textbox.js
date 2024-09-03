@@ -14,6 +14,19 @@ import { copy } from "../../helpers/copy.js";
  * @returns {import('../initial-state.js').State}
  */
 export function showTextboxReducer(state, payload) {
+  const you = /** @type {import('../initial-state.js').FoaFPerson} */ (
+    state.facts["#Yu"]
+  );
+  const index = you["foaf:knows"][0]?.value || null;
+
+  let speaker = null;
+  if (index) {
+    const other = /** @type {import('../initial-state.js').FoaFPerson} */ (
+      state.facts[index]
+    );
+    speaker = other["foaf:name"][0].value;
+  }
   const text = ["Ah, so you're awake.", "Time to get up!"];
-  return copy(state, { text });
+
+  return copy(state, { speaker, text });
 }
