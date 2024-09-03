@@ -6,39 +6,43 @@
 
 import { beforeEach, describe, expect, it } from "vitest";
 
+import { meetAction } from "../actions/meet.js";
+import { resetAction } from "../actions/reset.js";
 import store from "../store.js";
 import { pickup } from "./pickup.js";
 
 describe("pickup", function () {
-  it("should suggest possible rooms", function () {
-    // Arrange
-    const state = store.getState();
-
-    // Act
-    const items = pickup(state);
-    const possibleItems = state.facts.places.find(
-      (r) => r.name == state.activeRoom,
-    ).items;
-
-    // Assert
-    expect(items).to.deep.equal(possibleItems);
+  beforeEach(async function () {
+    await store.dispatch(resetAction());
   });
 
-  describe("when there is more than one item possible", function () {
-    it("should list them all", function () {
+  describe("when nobody is offering goods", function () {
+    it("should have nothing to offer", function () {
       // Arrange
-      const state = Object.assign({}, store.getState(), {
-        activeRoom: "outside",
-      });
+      const state = store.getState();
 
       // Act
       const items = pickup(state);
-      const possibleItems = state.facts.places.find(
-        (r) => r.name == state.activeRoom,
-      ).items;
 
       // Assert
-      expect(items).to.deep.equal(possibleItems);
+      expect(items).to.deep.equal([]);
+    });
+  });
+
+  describe("when somebody is offering goods", function () {
+    beforeEach(async function () {
+      await store.dispatch(meetAction());
+    });
+
+    it("should list the good", function () {
+      // Arrange
+      const state = store.getState();
+
+      // Act
+      const items = pickup(state);
+
+      // Assert
+      expect(items).toHaveLength(1);
     });
   });
 });
