@@ -20,100 +20,33 @@ export function updatePromptReducer(state, payload) {
 
   let { activeRoom, facts, possiblePrompts } = state;
   let [command, ...options] = prompt.trim().split(" ");
+  prompt = cleanup(prompt);
 
-  switch (cleanup(command)) {
-    case "go":
-      const room = go(state);
-      possiblePrompts = room;
+  if (prompt.startsWith("go")) {
+    possiblePrompts = maybeGoSomewhere(state);
+    const possibleTarget = possiblePrompts.find((target) => {
+      return options.includes(target.toLowerCase());
+    });
 
-      if (room.includes(cleanup(options.join(" ")))) {
-        activeRoom = /** @type {import('../initial-state.js').Room['name']} */ (
-          cleanup(options.join(" "))
-        );
-        prompt = "";
-        possiblePrompts = [];
-      }
-      break;
-    case "pickup":
-      const items = pickup(state);
-      possiblePrompts = items.map(
-        ({ name, quantity }) =>
-          `${quantity} ${quantity === 1 ? name : name + "s"}`,
-      );
+    if (possibleTarget) {
+      activeRoom = possibleTarget;
+      possiblePrompts = [];
+      prompt = "";
+    }
+  }
 
-      if (
-        possiblePrompts
-          .map((prompt) => prompt.split(" ").slice(1))
-          .flat(1)
-          .includes(cleanup(options.slice(1).join(" ")))
-      ) {
-        prompt = "";
-        possiblePrompts = [];
-        const quantity = parseInt(options[0], 10);
+  if (prompt.startsWith("pickup")) {
+    possiblePrompts = maybePickupSomething(state).map((item) =>
+      item.toLowerCase(),
+    );
+    const possibleItem = possiblePrompts.find((item) => {
+      return options.includes(item);
+    });
 
-        facts = {
-          ...state.facts,
-          people: state.facts.people.map((person) => {
-            if (person.name !== "Yu") {
-              return person;
-            }
-
-            const room = state.facts.places.find(
-              (room) => room.name === state.activeRoom,
-            );
-            const item = room?.items.find((item) =>
-              cleanup(options.slice(1).join("")).includes(item.name),
-            );
-
-            return {
-              ...person,
-              inventory: [
-                ...person.inventory,
-                {
-                  name: item?.name || "",
-                  quantity: Math.min(
-                    quantity,
-                    item?.quantity || Number.POSITIVE_INFINITY,
-                  ),
-                },
-              ],
-            };
-          }),
-          places: state.facts.places.map((room) => {
-            if (room.name !== state.activeRoom) {
-              return room;
-            }
-
-            return {
-              ...room,
-              items: room.items
-                .map((item) => {
-                  if (
-                    !cleanup(options.slice(1).join(" ")).includes(item.name)
-                  ) {
-                    return item;
-                  }
-
-                  if (item.quantity <= quantity) {
-                    return {
-                      ...item,
-                      quantity: 0,
-                    };
-                  }
-
-                  return {
-                    ...item,
-                    quantity: item.quantity - quantity,
-                  };
-                })
-                .filter((item) => item.quantity > 0),
-            };
-          }),
-        };
-      }
-      break;
-    default:
-    // Do nothing
+    if (possibleItem) {
+      possiblePrompts = [];
+      prompt = "";
+    }
   }
 
   return copy(state, { activeRoom, facts, possiblePrompts, prompt });
@@ -128,4 +61,34 @@ export function updatePromptReducer(state, payload) {
  */
 function cleanup(commandOrOption) {
   return commandOrOption.toLowerCase().trim();
+}
+
+/**
+ * Helper function to focus on "go" prompts.
+ *
+ * @private
+ * @argument {import('../initial-state.js').State} state
+ * @returns {Array<string>}
+ */
+function maybeGoSomewhere(state) {
+  const room = go(state);
+  const possibleRooms = room.map(
+    (schemaPlace) => schemaPlace["schema:name"][0].value,
+  );
+  return possibleRooms;
+}
+
+/**
+ * Helper function to focus on "pickup" prompts.
+ *
+ * @private
+ * @argument {import('../initial-state.js').State} state
+ * @returns {Array<string>}
+ */
+function maybePickupSomething(state) {
+  const resources = pickup(state);
+  const possibleResources = resources.map(
+    (resource) => resource["vf:name"][0].value,
+  );
+  return possibleResources;
 }
