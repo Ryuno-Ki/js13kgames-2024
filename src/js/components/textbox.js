@@ -24,7 +24,7 @@ export function textbox(targetElement, state) {
         ["tb"],
         {},
         "",
-        maybeShowTextbox(state),
+        [...maybeShowTextbox(state), ...maybeShowSpeaker(state)],
       ]),
     ),
   );
@@ -35,6 +35,7 @@ export function textbox(targetElement, state) {
 /**
  * Helper function to conditionally render children.
  *
+ * @private
  * @argument {import('../state/initial-state.js').State} state
  * @returns {import('./el.js').G}
  */
@@ -51,4 +52,19 @@ function maybeShowTextbox(state) {
       return ["text", [], { x: 5, y: 85 + index * 10 }, line];
     }),
   ];
+}
+
+/**
+ * Helper function to conditionally render children.
+ *
+ * @private
+ * @argument {import('../state/initial-state.js').State} state
+ * @returns {import('./el.js').G}
+ */
+function maybeShowSpeaker(state) {
+  if (state.speaker === null) {
+    return [];
+  }
+
+  return [["text", [], { x: 85, y: 80 }, state.speaker]];
 }
