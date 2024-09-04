@@ -5,8 +5,6 @@
  */
 
 import { copy } from "../../helpers/copy.js";
-import { generateName } from "../../helpers/generate-name.js";
-import { getRng } from "../../helpers/get-rng.js";
 
 /**
  * Reducer to meet another person.
@@ -16,10 +14,7 @@ import { getRng } from "../../helpers/get-rng.js";
  * @returns {import('../initial-state.js').State}
  */
 export function meetReducer(state, payload) {
-  let { seed } = state;
-  const rng = getRng(seed);
-  const name = generateName(rng);
-  seed = rng.state();
+  let { name, seed } = payload;
 
   const index = /** @type {string} */ (`#${name}`);
   const yu = /** @type {import('../initial-state.js').FoaFPerson} */ (
