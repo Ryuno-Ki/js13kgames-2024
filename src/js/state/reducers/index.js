@@ -5,6 +5,7 @@
  */
 
 import {
+  GO_TO_MAP_ACTION,
   MEET_ACTION,
   RESET_ACTION,
   SET_COLOR_PREFERENCE_ACTION,
@@ -13,6 +14,7 @@ import {
   SWITCH_TO_SCENE_ACTION,
   UPDATE_PROMPT_ACTION,
 } from "../../constants.js";
+import { goToMapReducer } from "./go-to-map.js";
 import { initialState } from "../initial-state.js";
 import { meetReducer } from "./meet.js";
 import { resetReducer } from "./reset.js";
@@ -35,6 +37,15 @@ export function reducer(state, action) {
   }
 
   const { payload, type } = action;
+
+  if (type === GO_TO_MAP_ACTION) {
+    return goToMapReducer(
+      state,
+      /** @type {import('../actions/go-to-map.js').GO_TO_MAP_ACTION['payload']} */ (
+        payload
+      ),
+    );
+  }
 
   if (type === MEET_ACTION) {
     return meetReducer(

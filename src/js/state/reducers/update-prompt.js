@@ -5,7 +5,6 @@
  */
 
 import { copy } from "../../helpers/copy.js";
-import { go } from "../clauses/go.js";
 import { pickup } from "../clauses/pickup.js";
 
 /**
@@ -21,19 +20,6 @@ export function updatePromptReducer(state, payload) {
   let { activeRoom, facts, possiblePrompts } = state;
   let [command, ...options] = prompt.trim().split(" ");
   prompt = cleanup(prompt);
-
-  if (prompt.startsWith("go")) {
-    possiblePrompts = maybeGoSomewhere(state);
-    const possibleTarget = possiblePrompts.find((target) => {
-      return options.includes(target.toLowerCase());
-    });
-
-    if (possibleTarget) {
-      activeRoom = possibleTarget;
-      possiblePrompts = [];
-      prompt = "";
-    }
-  }
 
   if (prompt.startsWith("pickup")) {
     possiblePrompts = maybePickupSomething(state).map((item) =>
@@ -61,21 +47,6 @@ export function updatePromptReducer(state, payload) {
  */
 function cleanup(commandOrOption) {
   return commandOrOption.toLowerCase().trim();
-}
-
-/**
- * Helper function to focus on "go" prompts.
- *
- * @private
- * @argument {import('../initial-state.js').State} state
- * @returns {Array<string>}
- */
-function maybeGoSomewhere(state) {
-  const room = go(state);
-  const possibleRooms = room.map(
-    (schemaPlace) => schemaPlace["schema:name"][0].value,
-  );
-  return possibleRooms;
 }
 
 /**
