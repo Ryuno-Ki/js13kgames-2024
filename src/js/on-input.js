@@ -6,6 +6,7 @@
 
 import store from "./state/store.js";
 import { goToMapAction } from "./state/actions/go-to-map.js";
+import { helpAction } from "./state/actions/help.js";
 import { offerAction } from "./state/actions/offer.js";
 import { setPlayernameAction } from "./state/actions/set-playername.js";
 import { draw } from "./draw.js";
@@ -30,6 +31,8 @@ export async function onInput(event) {
     const prompt = /** @type {string} */ (target.value);
     if (prompt.startsWith("go ")) {
       await store.dispatch(goToMapAction(prompt));
+    } else if (prompt.startsWith("help ")) {
+      await store.dispatch(helpAction(prompt));
     } else {
       await store.dispatch(offerAction(prompt));
     }

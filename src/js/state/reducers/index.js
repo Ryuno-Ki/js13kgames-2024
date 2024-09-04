@@ -6,6 +6,7 @@
 
 import {
   GO_TO_MAP_ACTION,
+  HELP_ACTION,
   MEET_ACTION,
   OFFER_ACTION,
   RESET_ACTION,
@@ -15,6 +16,7 @@ import {
   SWITCH_TO_SCENE_ACTION,
 } from "../../constants.js";
 import { goToMapReducer } from "./go-to-map.js";
+import { helpReducer } from "./help.js";
 import { initialState } from "../initial-state.js";
 import { meetReducer } from "./meet.js";
 import { offerReducer } from "./offer.js";
@@ -42,6 +44,15 @@ export function reducer(state, action) {
     return goToMapReducer(
       state,
       /** @type {import('../actions/go-to-map.js').GO_TO_MAP_ACTION['payload']} */ (
+        payload
+      ),
+    );
+  }
+
+  if (type === HELP_ACTION) {
+    return helpReducer(
+      state,
+      /** @type {import('../actions/help.js').HELP_ACTION['payload']} */ (
         payload
       ),
     );

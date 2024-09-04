@@ -2,6 +2,8 @@
 export const LOCAL_STORAGE_KEY: "TBD";
 /** Action type to go to another map */
 export const GO_TO_MAP_ACTION: "GO_TO_MAP_ACTION";
+/** Action type to display help */
+export const HELP_ACTION: "HELP_ACTION";
 /** Action type to meet another person */
 export const MEET_ACTION: "MEET_ACTION";
 /** Action type to offer an item */
