@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { prng_alea } from "esm-seedrandom";
-
 import { copy } from "../../helpers/copy.js";
 import { generateName } from "../../helpers/generate-name.js";
+import { getRng } from "../../helpers/get-rng.js";
 
 /**
  * Reducer to meet another person.
@@ -93,18 +92,4 @@ export function meetReducer(state, payload) {
   };
 
   return copy(state, { facts, seed });
-}
-
-/**
- * Helper function to prepare the RNG.
- *
- * @private
- * @argument {import('../initial-state.js').State["seed"]} seed
- * @returns {*}
- */
-function getRng(seed) {
-  const rngSeed = typeof seed === "string" ? seed : "";
-  const rngState = typeof seed === "object" ? seed : true;
-  const rng = prng_alea(rngSeed, { state: rngState });
-  return rng;
 }
