@@ -31,7 +31,7 @@ describe("pickup", function () {
 
   describe("when somebody is offering goods", function () {
     beforeEach(async function () {
-      await store.dispatch(meetAction());
+      await store.dispatch(meetAction("Max", "Mustermann"));
     });
 
     it("should list the good", function () {

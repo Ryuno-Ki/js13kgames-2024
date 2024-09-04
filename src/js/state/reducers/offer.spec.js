@@ -59,7 +59,7 @@ describe("offerReducer", function () {
 
   describe("when the prompt starts with 'pickup'", function () {
     beforeEach(async function () {
-      await store.dispatch(meetAction());
+      await store.dispatch(meetAction("John", "Doe"));
     });
 
     it("should suggest possible items", function () {

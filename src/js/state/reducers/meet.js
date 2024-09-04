@@ -8,6 +8,7 @@ import { copy } from "../../helpers/copy.js";
 import { generateEconomicEvent } from "../../helpers/generate-economic-event.js";
 import { generateEconomicResource } from "../../helpers/generate-economic-resource.js";
 import { generateFoaFPerson } from "../../helpers/generate-foaf-person.js";
+import { makeAcquaintance } from "../../helpers/make-acquaintance.js";
 
 /**
  * Reducer to meet another person.
@@ -20,22 +21,17 @@ export function meetReducer(state, payload) {
   let { name, seed } = payload;
 
   const index = /** @type {string} */ (`#${name}`);
-  const yu = /** @type {import('../initial-state.js').FoaFPerson} */ (
-    state.facts["#Yu"]
-  );
+  const innHolder = generateFoaFPerson(name, [], "#Inn");
+  const acquaintancedPeople = makeAcquaintance({
+    "#Yu": /** @type {import('../initial-state.js').FoaFPerson} */ (
+      state.facts["#Yu"]
+    ),
+    [index]: innHolder,
+  });
 
   const facts = {
     ...state.facts,
-    ["#Yu"]: {
-      ...yu,
-      "foaf:knows": [
-        ...yu["foaf:knows"],
-        {
-          value: index,
-          type: "uri",
-        },
-      ],
-    },
+    ["#Yu"]: acquaintancedPeople["#Yu"],
     ["#AppleInInn"]: generateEconomicResource("apple", "#One", "#Inn"),
     ["#AppleInInnEvent"]: generateEconomicEvent(
       "#RaiseAction",
@@ -46,7 +42,7 @@ export function meetReducer(state, payload) {
       "#One",
       "#Inn",
     ),
-    [index]: generateFoaFPerson(name, ["#Yu"], "#Inn"),
+    [index]: acquaintancedPeople[index],
   };
 
   return copy(state, { facts, seed });
