@@ -5,6 +5,7 @@
  */
 
 import { copy } from "../../helpers/copy.js";
+import { generateEconomicEvent } from "../../helpers/generate-economic-event.js";
 import { generateEconomicResource } from "../../helpers/generate-economic-resource.js";
 
 /**
@@ -23,29 +24,15 @@ export function meetReducer(state, payload) {
   );
 
   const appleInInn = generateEconomicResource("apple", "#One", "#Inn");
-
-  const appleInInnEvent =
-    /** @type {import('../initial-state.js').ValueFlowsEconomicEvent} */ ({
-      "rdf:type": [
-        {
-          value: "https://w3id.org/valueflows/ont/vf#EconomicEvent",
-          type: "uri",
-        },
-      ],
-      "vf:action": [{ value: "#RaiseAction", type: "uri" }],
-      "vf:provider": [{ value: "#AppleTree", type: "uri" }],
-      "vf:receiver": [{ value: index, type: "uri" }],
-      "vf:resourceConformsTo": [
-        {
-          value: "#Apple",
-          type: "uri",
-        },
-      ],
-      "vf:resourceInventoriedAs": [{ value: "#AppleInInn", type: "uri" }],
-      "vf:resourceQuantity": [{ value: "#One", type: "uri" }],
-      "vf:seller": [{ value: index, type: "uri" }],
-      "vf:toLocation": [{ value: "#Inn", type: "uri" }],
-    });
+  const appleInInnEvent = generateEconomicEvent(
+    "#RaiseAction",
+    "#AppleTree",
+    index,
+    "#Apple",
+    "#AppleInInn",
+    "#One",
+    "#Inn",
+  );
 
   const newPerson = /** @type {import('../initial-state.js').FoaFPerson} */ ({
     "foaf:knows": [{ value: "#Yu", type: "uri" }],
