@@ -7,8 +7,7 @@
 import { prng_alea } from "esm-seedrandom";
 
 import { copy } from "../../helpers/copy.js";
-import { pickRandom } from "../../helpers/pick-random.js";
-import { roll } from "../../helpers/roll.js";
+import { generateName } from "../../helpers/generate-name.js";
 
 /**
  * Reducer to meet another person.
@@ -20,7 +19,7 @@ import { roll } from "../../helpers/roll.js";
 export function meetReducer(state, payload) {
   let { seed } = state;
   const rng = getRng(seed);
-  const name = generateName(state, rng);
+  const name = generateName(rng);
   seed = rng.state();
 
   const index = /** @type {string} */ (`#${name}`);
@@ -94,44 +93,6 @@ export function meetReducer(state, payload) {
   };
 
   return copy(state, { facts, seed });
-}
-
-/**
- * Helper function to generate a new name.
- *
- * @private
- * @argument {import('../initial-state.js').State} state
- * @argument {*} rng
- * @returns {string}
- */
-function generateName(state, rng) {
-  const consonants = "bdfghklmnprstvwz".split("");
-  const vowels = "aeiou".split("");
-  const MAXIMUM_NUMBER_OF_CHARACTERS = 6;
-  const MINIMUM_NUMBER_OF_CHARACTERS = 2;
-
-  const nameLength = roll(
-    rng.quick,
-    MAXIMUM_NUMBER_OF_CHARACTERS,
-    MINIMUM_NUMBER_OF_CHARACTERS,
-  );
-  let seed = rng.state();
-
-  const name = new Array(nameLength)
-    .fill("x")
-    .map(function (_, index) {
-      const alphabet = index % 2 ? vowels : consonants;
-      const character = pickRandom(alphabet, rng.quick);
-      seed = rng.state();
-
-      if (index === 0) {
-        return character.toUpperCase();
-      }
-      return character;
-    })
-    .join("");
-
-  return name;
 }
 
 /**

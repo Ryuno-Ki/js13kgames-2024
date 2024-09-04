@@ -7,7 +7,7 @@
 import { roll } from "./roll.js";
 
 /**
- * Helper function to randomly pick an item from a list.
+ * Randomly pick an item from a list.
  *
  * @argument {Array<string>} list
  * @argument {function} rng
