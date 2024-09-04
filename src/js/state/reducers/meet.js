@@ -7,6 +7,7 @@
 import { prng_alea } from "esm-seedrandom";
 
 import { copy } from "../../helpers/copy.js";
+import { roll } from "../../helpers/roll.js";
 
 /**
  * Reducer to meet another person.
@@ -105,8 +106,14 @@ export function meetReducer(state, payload) {
 function generateName(state, rng) {
   const consonants = "bdfghklmnprstvwz".split("");
   const vowels = "aeiou".split("");
+  const MAXIMUM_NUMBER_OF_CHARACTERS = 6;
+  const MINIMUM_NUMBER_OF_CHARACTERS = 2;
 
-  const nameLength = roll(rng, 6);
+  const nameLength = roll(
+    rng.quick,
+    MAXIMUM_NUMBER_OF_CHARACTERS,
+    MINIMUM_NUMBER_OF_CHARACTERS,
+  );
   let seed = rng.state();
 
   const name = new Array(nameLength)
@@ -135,7 +142,7 @@ function generateName(state, rng) {
  * @returns {string}
  */
 function pickRandom(list, rng) {
-  const index = roll(rng, list.length);
+  const index = roll(rng.quick, list.length);
   return list[index];
 }
 
@@ -151,16 +158,4 @@ function getRng(seed) {
   const rngState = typeof seed === "object" ? seed : true;
   const rng = prng_alea(rngSeed, { state: rngState });
   return rng;
-}
-
-/**
- * Helper function to randomly generate a number between 0 and upper.
- *
- * @private
- * @argument {*} rng
- * @argument {number} upper
- * @returns {number}
- */
-function roll(rng, upper) {
-  return Math.floor(rng.quick() * upper);
 }
