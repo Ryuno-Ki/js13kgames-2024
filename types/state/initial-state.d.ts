@@ -56,14 +56,17 @@
  */
 /**
  * @typedef {{
- *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf/EconomicResource" }],
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#EconomicResource" }],
+ *   "vf:accountingQuantity": [{ type: "uri", value: string }],
  *   "vf:currentLocation": [{ type: "uri", value: string }],
  *   "vf:name": [{ type: "literal", value: string }]
  * }} ValueFlowsEconomicResource
  */
 /**
  * @typedef {{
- *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#Measure" }]
+ *   "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#Measure" }],
+ *   "vf:hasNumericalValue": [{ value: number, type: "literal" }],
+ *   "vf:hasUnit": [{ value: string, type: "uri" }]
  * }} ValueFlowsMeasure
  */
 /**
@@ -268,7 +271,13 @@ export type ValueFlowsEconomicResource = {
   "rdf:type": [
     {
       type: "uri";
-      value: "https://w3id.org/valueflows/ont/vf/EconomicResource";
+      value: "https://w3id.org/valueflows/ont/vf#EconomicResource";
+    },
+  ];
+  "vf:accountingQuantity": [
+    {
+      type: "uri";
+      value: string;
     },
   ];
   "vf:currentLocation": [
@@ -289,6 +298,18 @@ export type ValueFlowsMeasure = {
     {
       type: "uri";
       value: "https://w3id.org/valueflows/ont/vf#Measure";
+    },
+  ];
+  "vf:hasNumericalValue": [
+    {
+      value: number;
+      type: "literal";
+    },
+  ];
+  "vf:hasUnit": [
+    {
+      value: string;
+      type: "uri";
     },
   ];
 };

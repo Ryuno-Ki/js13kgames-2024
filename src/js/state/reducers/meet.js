@@ -26,6 +26,19 @@ export function meetReducer(state, payload) {
     state.facts["#Yu"]
   );
 
+  const appleInInn =
+    /** @type {import('../initial-state.js').ValueFlowsEconomicResource} */ ({
+      "rdf:type": [
+        {
+          value: "https://w3id.org/valueflows/ont/vf#EconomicResource",
+          type: "uri",
+        },
+      ],
+      "vf:accountingQuantity": [{ value: "#One", type: "uri" }],
+      "vf:currentLocation": [{ value: "#Inn", type: "uri" }],
+      "vf:name": [{ value: "apple", type: "literal" }],
+    });
+
   const appleInInnEvent =
     /** @type {import('../initial-state.js').ValueFlowsEconomicEvent} */ ({
       "rdf:type": [
@@ -45,6 +58,7 @@ export function meetReducer(state, payload) {
       ],
       "vf:resourceInventoriedAs": [{ value: "#AppleInInn", type: "uri" }],
       "vf:resourceQuantity": [{ value: "#One", type: "uri" }],
+      "vf:seller": [{ value: index, type: "uri" }],
       "vf:toLocation": [{ value: "#Inn", type: "uri" }],
     });
 
@@ -58,7 +72,6 @@ export function meetReducer(state, payload) {
       },
     ],
     "schema:gameLocation": [{ value: "#Inn", type: "uri" }],
-    "schema:seller": [{ value: "#AppleInInn", type: "uri" }],
   });
 
   const facts = {
@@ -73,6 +86,7 @@ export function meetReducer(state, payload) {
         },
       ],
     },
+    ["#AppleInInn"]: appleInInn,
     ["#AppleInInnEvent"]: appleInInnEvent,
     [index]: newPerson,
   };
