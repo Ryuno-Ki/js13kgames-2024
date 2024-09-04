@@ -7,6 +7,7 @@
 import { copy } from "../../helpers/copy.js";
 import { generateEconomicEvent } from "../../helpers/generate-economic-event.js";
 import { generateEconomicResource } from "../../helpers/generate-economic-resource.js";
+import { generateFoaFPerson } from "../../helpers/generate-foaf-person.js";
 
 /**
  * Reducer to meet another person.
@@ -23,29 +24,6 @@ export function meetReducer(state, payload) {
     state.facts["#Yu"]
   );
 
-  const appleInInn = generateEconomicResource("apple", "#One", "#Inn");
-  const appleInInnEvent = generateEconomicEvent(
-    "#RaiseAction",
-    "#AppleTree",
-    index,
-    "#Apple",
-    "#AppleInInn",
-    "#One",
-    "#Inn",
-  );
-
-  const newPerson = /** @type {import('../initial-state.js').FoaFPerson} */ ({
-    "foaf:knows": [{ value: "#Yu", type: "uri" }],
-    "foaf:name": [{ value: name, type: "literal" }],
-    "rdf:type": [
-      {
-        value: "http://xmlns.com/foaf/0.1/Person",
-        type: "uri",
-      },
-    ],
-    "schema:gameLocation": [{ value: "#Inn", type: "uri" }],
-  });
-
   const facts = {
     ...state.facts,
     ["#Yu"]: {
@@ -58,9 +36,17 @@ export function meetReducer(state, payload) {
         },
       ],
     },
-    ["#AppleInInn"]: appleInInn,
-    ["#AppleInInnEvent"]: appleInInnEvent,
-    [index]: newPerson,
+    ["#AppleInInn"]: generateEconomicResource("apple", "#One", "#Inn"),
+    ["#AppleInInnEvent"]: generateEconomicEvent(
+      "#RaiseAction",
+      "#AppleTree",
+      index,
+      "#Apple",
+      "#AppleInInn",
+      "#One",
+      "#Inn",
+    ),
+    [index]: generateFoaFPerson(name, ["#Yu"], "#Inn"),
   };
 
   return copy(state, { facts, seed });

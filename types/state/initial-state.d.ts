@@ -14,11 +14,10 @@
  */
 /**
  * @typedef {{
- *   "foaf:knows": [{ type: "uri", value: string }],
+ *   "foaf:knows": Array<{ type: "uri", value: string }>,
  *   "foaf:name": [{ type: "literal", value: string }],
  *   "rdf:type": [{ type: "uri", value: "http://xmlns.com/foaf/0.1/Person" }],
  *   "schema:gameLocation": [{ type: "uri", value: string }],
- *   "schema:seller": [{ type: "uri", value: string }]
  * }} FoaFPerson
  */
 /**
@@ -128,12 +127,10 @@ export type Item = {
 };
 export type Items = Array<Item>;
 export type FoaFPerson = {
-  "foaf:knows": [
-    {
-      type: "uri";
-      value: string;
-    },
-  ];
+  "foaf:knows": Array<{
+    type: "uri";
+    value: string;
+  }>;
   "foaf:name": [
     {
       type: "literal";
@@ -147,12 +144,6 @@ export type FoaFPerson = {
     },
   ];
   "schema:gameLocation": [
-    {
-      type: "uri";
-      value: string;
-    },
-  ];
-  "schema:seller": [
     {
       type: "uri";
       value: string;
