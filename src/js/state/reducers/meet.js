@@ -7,6 +7,7 @@
 import { prng_alea } from "esm-seedrandom";
 
 import { copy } from "../../helpers/copy.js";
+import { pickRandom } from "../../helpers/pick-random.js";
 import { roll } from "../../helpers/roll.js";
 
 /**
@@ -120,7 +121,7 @@ function generateName(state, rng) {
     .fill("x")
     .map(function (_, index) {
       const alphabet = index % 2 ? vowels : consonants;
-      const character = pickRandom(alphabet, rng);
+      const character = pickRandom(alphabet, rng.quick);
       seed = rng.state();
 
       if (index === 0) {
@@ -131,19 +132,6 @@ function generateName(state, rng) {
     .join("");
 
   return name;
-}
-
-/**
- * Helper function to randomly pick an item from a list.
- *
- * @private
- * @argument {Array<string>} list
- * @argument {*} rng
- * @returns {string}
- */
-function pickRandom(list, rng) {
-  const index = roll(rng.quick, list.length);
-  return list[index];
 }
 
 /**
