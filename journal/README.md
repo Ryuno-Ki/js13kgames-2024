@@ -33,3 +33,4 @@ I plan to copy-paste it to the Fediverse and on Itch.io as well.
 - [01st September 2024](./2024-09-01.md)
 - [02nd September 2024](./2024-09-02.md)
 - [03rd September 2024](./2024-09-03.md)
+- [04th September 2024](./2024-09-04.md)
