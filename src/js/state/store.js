@@ -5,9 +5,10 @@
  */
 
 import {
+  GO_TO_MAP_ACTION,
+  OFFER_ACTION,
   SET_COLOR_PREFERENCE_ACTION,
   SWITCH_TO_SCENE_ACTION,
-  UPDATE_PROMPT_ACTION,
 } from "../constants.js";
 import { resetAction } from "./actions/reset.js";
 import { reducer } from "./reducers/index.js";
@@ -52,16 +53,20 @@ class Store {
    * @argument {import('./initial-state.js').State} newState
    */
   _applySideEffects(action, oldState, newState) {
+    if (action.type === GO_TO_MAP_ACTION) {
+      this._maybeClearPrompt(oldState, newState);
+    }
+
+    if (action.type === OFFER_ACTION) {
+      this._maybeClearPrompt(oldState, newState);
+    }
+
     if (action.type === SET_COLOR_PREFERENCE_ACTION) {
       this._applyColorTheme(action.payload.colorScheme);
     }
 
     if (action.type === SWITCH_TO_SCENE_ACTION) {
       this._setDocumentTitle();
-    }
-
-    if (action.type === UPDATE_PROMPT_ACTION) {
-      this._maybeClearPrompt(oldState, newState);
     }
   }
 

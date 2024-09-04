@@ -9,9 +9,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { meetAction } from "../actions/meet.js";
 import { resetAction } from "../actions/reset.js";
 import store from "../store.js";
-import { updatePromptReducer } from "./update-prompt.js";
+import { offerReducer } from "./offer.js";
 
-describe("updatePromptReducer", function () {
+describe("offerReducer", function () {
   beforeEach(async function () {
     await store.dispatch(resetAction());
   });
@@ -23,7 +23,7 @@ describe("updatePromptReducer", function () {
       const payload = { prompt: "" };
 
       // Act
-      const newState = updatePromptReducer(state, payload);
+      const newState = offerReducer(state, payload);
 
       // Assert
       expect(newState).not.to.equal(state);
@@ -36,7 +36,7 @@ describe("updatePromptReducer", function () {
       const payload = { prompt: "" };
 
       // Act
-      const newState = updatePromptReducer(state, payload);
+      const newState = offerReducer(state, payload);
 
       // Assert
       expect(newState).not.to.equal(state);
@@ -49,7 +49,7 @@ describe("updatePromptReducer", function () {
       const payload = { prompt: "" };
 
       // Act
-      const newState = updatePromptReducer(state, payload);
+      const newState = offerReducer(state, payload);
 
       // Assert
       expect(newState).not.to.equal(state);
@@ -68,7 +68,7 @@ describe("updatePromptReducer", function () {
       const payload = { prompt: "pickup" };
 
       // Act
-      const newState = updatePromptReducer(state, payload);
+      const newState = offerReducer(state, payload);
 
       // Assert
       expect(newState).not.to.equal(state);
@@ -81,7 +81,7 @@ describe("updatePromptReducer", function () {
       const payload = { prompt: "pickup" };
 
       // Act
-      const newState = updatePromptReducer(state, payload);
+      const newState = offerReducer(state, payload);
 
       // Assert
       expect(newState).not.to.equal(state);
@@ -94,7 +94,7 @@ describe("updatePromptReducer", function () {
       const payload = { prompt: "pickup" };
 
       // Act
-      const newState = updatePromptReducer(state, payload);
+      const newState = offerReducer(state, payload);
       const yourInventory = newState.facts.people.find(
         (p) => p.name === "Yu",
       ).inventory;
@@ -111,7 +111,7 @@ describe("updatePromptReducer", function () {
         const payload = { prompt: "pickup 1 apple" };
 
         // Act
-        const newState = updatePromptReducer(state, payload);
+        const newState = offerReducer(state, payload);
 
         // Assert
         expect(newState).not.to.equal(state);
@@ -124,7 +124,7 @@ describe("updatePromptReducer", function () {
         const payload = { prompt: "pickup 1 apple" };
 
         // Act
-        const newState = updatePromptReducer(state, payload);
+        const newState = offerReducer(state, payload);
 
         // Assert
         expect(newState).not.to.equal(state);
@@ -137,7 +137,7 @@ describe("updatePromptReducer", function () {
         const payload = { prompt: "pickup 1 apple" };
 
         // Act
-        const newState = updatePromptReducer(state, payload);
+        const newState = offerReducer(state, payload);
         const yourInventory = newState.facts.people.find(
           (p) => p.name === "Yu",
         ).inventory;
@@ -161,7 +161,7 @@ describe("updatePromptReducer", function () {
         const payload = { prompt: "pickup 1 apple" };
 
         // Act
-        const newState = updatePromptReducer(state, payload);
+        const newState = offerReducer(state, payload);
         const homeItems = newState.facts.places.find(
           (r) => r.name === "home",
         ).items;
@@ -182,7 +182,7 @@ describe("updatePromptReducer", function () {
         const payload = { prompt: "pickup 20 apples" };
 
         // Act
-        const newState = updatePromptReducer(state, payload);
+        const newState = offerReducer(state, payload);
         const yourInventory = newState.facts.people.find(
           (p) => p.name === "Yu",
         ).inventory;
@@ -208,7 +208,7 @@ describe("updatePromptReducer", function () {
         const payload = { prompt: "pickup 20 apples" };
 
         // Act
-        const newState = updatePromptReducer(state, payload);
+        const newState = offerReducer(state, payload);
         const roomItems = newState.facts.places.find(
           (r) => r.name === state.activeRoom,
         ).items;

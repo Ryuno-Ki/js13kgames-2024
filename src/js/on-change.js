@@ -5,8 +5,9 @@
  */
 
 import store from "./state/store.js";
+import { goToMapAction } from "./state/actions/go-to-map.js";
+import { offerAction } from "./state/actions/offer.js";
 import { setColorPreferenceAction } from "./state/actions/set-color-preference.js";
-import { updatePromptAction } from "./state/actions/update-prompt.js";
 import { draw } from "./draw.js";
 
 /**
@@ -32,7 +33,11 @@ export async function onChange(event) {
 
   if (target.id === "possible-commands") {
     const prompt = /** @type {string} */ (target.value);
-    await store.dispatch(updatePromptAction(prompt));
+    if (prompt.startsWith("go ")) {
+      await store.dispatch(goToMapAction(prompt));
+    } else {
+      await store.dispatch(offerAction(prompt));
+    }
     draw();
   }
 }

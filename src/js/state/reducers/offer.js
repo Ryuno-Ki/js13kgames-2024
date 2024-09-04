@@ -8,13 +8,13 @@ import { copy } from "../../helpers/copy.js";
 import { pickup } from "../clauses/pickup.js";
 
 /**
- * Reducer to update the prompt.
+ * Reducer to offer an item.
  *
  * @argument {import('../initial-state.js').State} state
- * @argument {import('../actions/update-prompt.js').UPDATE_PROMPT_ACTION['payload']} payload
+ * @argument {import('../actions/offer.js').OFFER_ACTION['payload']} payload
  * @returns {import('../initial-state.js').State}
  */
-export function updatePromptReducer(state, payload) {
+export function offerReducer(state, payload) {
   let { prompt } = payload;
 
   let { activeRoom, facts, possiblePrompts } = state;

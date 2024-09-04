@@ -1,11 +1,11 @@
 /**
- * Reducer to update the prompt.
+ * Reducer to offer an item.
  *
  * @argument {import('../initial-state.js').State} state
- * @argument {import('../actions/update-prompt.js').UPDATE_PROMPT_ACTION['payload']} payload
+ * @argument {import('../actions/offer.js').OFFER_ACTION['payload']} payload
  * @returns {import('../initial-state.js').State}
  */
-export function updatePromptReducer(
+export function offerReducer(
   state: import("../initial-state.js").State,
-  payload: any["payload"],
+  payload: import("../actions/offer.js").OFFER_ACTION["payload"],
 ): import("../initial-state.js").State;

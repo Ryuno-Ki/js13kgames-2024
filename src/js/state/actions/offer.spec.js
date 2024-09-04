@@ -6,19 +6,19 @@
 
 import { describe, expect, it } from "vitest";
 
-import { UPDATE_PROMPT_ACTION } from "../../constants.js";
-import { updatePromptAction } from "./update-prompt.js";
+import { OFFER_ACTION } from "../../constants.js";
+import { offerAction } from "./offer.js";
 
-describe("updatePromptAction", function () {
-  it(`should create a ${UPDATE_PROMPT_ACTION}`, function () {
+describe("offerAction", function () {
+  it(`should create a ${OFFER_ACTION}`, function () {
     // Arrange
     const prompt = "go home";
 
     // Act
-    const action = updatePromptAction(prompt);
+    const action = offerAction(prompt);
 
     // Assert
-    expect(action.type).to.equal(UPDATE_PROMPT_ACTION);
+    expect(action.type).to.equal(OFFER_ACTION);
     expect(action.payload.prompt).to.equal(prompt);
   });
 });

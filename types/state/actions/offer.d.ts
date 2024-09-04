@@ -1,18 +1,18 @@
 /**
- * @typedef {object} UPDATE_PROMPT_ACTION
- * @property {import('../../constants.js').UPDATE_PROMPT_ACTION} UPDATE_PROMPT_ACTION.type
- * @property {object} UPDATE_PROMPT_ACTION.payload
- * @property {string} UPDATE_PROMPT_ACTION.payload.prompt
+ * @typedef {object} OFFER_ACTION
+ * @property {import('../../constants.js').OFFER_ACTION} OFFER_ACTION.type
+ * @property {object} OFFER_ACTION.payload
+ * @property {string} OFFER_ACTION.payload.prompt
  */
 /**
- * Action creator to update a new prompt.
+ * Action creator to offer an item.
  *
  * @argument {string} prompt
- * @returns {UPDATE_PROMPT_ACTION}
+ * @returns {OFFER_ACTION}
  */
-export function updatePromptAction(prompt: string): UPDATE_PROMPT_ACTION;
-export type UPDATE_PROMPT_ACTION = {
-  type: "UPDATE_PROMPT_ACTION";
+export function offerAction(prompt: string): OFFER_ACTION;
+export type OFFER_ACTION = {
+  type: "OFFER_ACTION";
   payload: {
     prompt: string;
   };

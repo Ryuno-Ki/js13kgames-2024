@@ -7,22 +7,22 @@
 import {
   GO_TO_MAP_ACTION,
   MEET_ACTION,
+  OFFER_ACTION,
   RESET_ACTION,
   SET_COLOR_PREFERENCE_ACTION,
   SET_PLAYERNAME_ACTION,
   SHOW_TEXTBOX_ACTION,
   SWITCH_TO_SCENE_ACTION,
-  UPDATE_PROMPT_ACTION,
 } from "../../constants.js";
 import { goToMapReducer } from "./go-to-map.js";
 import { initialState } from "../initial-state.js";
 import { meetReducer } from "./meet.js";
+import { offerReducer } from "./offer.js";
 import { resetReducer } from "./reset.js";
 import { setColorPreferenceReducer } from "./set-color-preference.js";
 import { setPlayernameReducer } from "./set-playername.js";
 import { showTextboxReducer } from "./show-textbox.js";
 import { switchToSceneReducer } from "./switch-to-scene.js";
-import { updatePromptReducer } from "./update-prompt.js";
 
 /**
  * Combined reducer.
@@ -101,10 +101,10 @@ export function reducer(state, action) {
     );
   }
 
-  if (type === UPDATE_PROMPT_ACTION) {
-    return updatePromptReducer(
+  if (type === OFFER_ACTION) {
+    return offerReducer(
       state,
-      /** @type {import('../actions/update-prompt.js').UPDATE_PROMPT_ACTION['payload']} */ (
+      /** @type {import('../actions/offer.js').OFFER_ACTION['payload']} */ (
         payload
       ),
     );
