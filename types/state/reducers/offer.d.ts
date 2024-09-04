@@ -7,5 +7,5 @@
  */
 export function updatePromptReducer(
   state: import("../initial-state.js").State,
-  payload: import("../actions/update-prompt.js").UPDATE_PROMPT_ACTION["payload"],
+  payload: any["payload"],
 ): import("../initial-state.js").State;
