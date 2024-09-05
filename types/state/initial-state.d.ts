@@ -80,6 +80,9 @@
  * }} ValueFlowsRaiseAction
  */
 /**
+ * @typedef {ValueFlowsRaiseAction} ValueFlowsAction
+ */
+/**
  * @typedef {{
  *  "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#ResourceSpecification" }]
  *  "vf:name": [{ type: "literal", value: string }]
@@ -348,6 +351,7 @@ export type ValueFlowsRaiseAction = {
     },
   ];
 };
+export type ValueFlowsAction = ValueFlowsRaiseAction;
 export type ValueFlowsResourceSpecification = {
   "rdf:type": [
     {

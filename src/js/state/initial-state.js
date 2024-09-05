@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { generateAction } from "../helpers/generate-action.js";
 import { generateEcologicalAgent } from "../helpers/generate-ecological-agent.js";
 import { generateFoaFPerson } from "../helpers/generate-foaf-person.js";
 import { generateMeasure } from "../helpers/generate-measure.js";
@@ -110,6 +111,10 @@ import { generateSchemaGameLocation } from "../helpers/generate-schema-game-loca
  */
 
 /**
+ * @typedef {ValueFlowsRaiseAction} ValueFlowsAction
+ */
+
+/**
  * @typedef {{
  *  "rdf:type": [{ type: "uri", value: "https://w3id.org/valueflows/ont/vf#ResourceSpecification" }]
  *  "vf:name": [{ type: "literal", value: string }]
@@ -178,14 +183,11 @@ export const initialState = {
       "http://www.ontology-of-units-of-measure.org/resource/om-2/one",
     ),
     "#Outside": generateSchemaGameLocation("#Outside", ["#Inn", "#Shop"]),
-    "#RaiseAction": /** @type {ValueFlowsRaiseAction} */ ({
-      "rdf:type": [
-        {
-          value: "https://w3id.org/valueflows/ont/vf#raise",
-          type: "uri",
-        },
-      ],
-    }),
+    "#RaiseAction": generateAction(
+      /** @type {"https://w3id.org/valueflows/ont/vf#raise"} */ (
+        "https://w3id.org/valueflows/ont/vf#raise"
+      ),
+    ),
     "#Shop": generateSchemaGameLocation("#Shop", ["#Outside"]),
     "#Wheat": generateResourceSpecification("Wheat"),
     "#Yu": generateFoaFPerson("Yu", [], "#Inn"),
