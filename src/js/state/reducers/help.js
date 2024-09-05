@@ -19,7 +19,7 @@ export function helpReducer(state, payload) {
   let { possiblePrompts } = state;
 
   if (prompt.startsWith("help ")) {
-    possiblePrompts = ["with go", "with offer"];
+    possiblePrompts = ["try go", "try offer"];
   }
 
   return copy(state, { possiblePrompts, prompt });

@@ -54,7 +54,7 @@ describe("helpReducer", function () {
 
       // Assert
       expect(newState).not.to.equal(state);
-      expect(newState.possiblePrompts).to.deep.equal(["with go", "with offer"]);
+      expect(newState.possiblePrompts).to.deep.equal(["try go", "try offer"]);
     });
 
     it("should not change the prompt", function () {

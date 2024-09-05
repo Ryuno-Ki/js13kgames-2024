@@ -57,7 +57,7 @@ describe("offerReducer", function () {
     });
   });
 
-  describe("when the prompt starts with 'pickup'", function () {
+  describe("when the prompt starts with 'offer'", function () {
     beforeEach(async function () {
       await store.dispatch(meetAction("John", "Doe"));
     });
@@ -65,7 +65,7 @@ describe("offerReducer", function () {
     it("should suggest possible items", function () {
       // Arrange
       const state = store.getState();
-      const payload = { prompt: "pickup" };
+      const payload = { prompt: "offer" };
 
       // Act
       const newState = offerReducer(state, payload);
@@ -78,7 +78,7 @@ describe("offerReducer", function () {
     it("should not change the prompt", function () {
       // Arrange
       const state = store.getState();
-      const payload = { prompt: "pickup" };
+      const payload = { prompt: "offer" };
 
       // Act
       const newState = offerReducer(state, payload);
@@ -91,7 +91,7 @@ describe("offerReducer", function () {
     it.skip("should not change your inventory", function () {
       // Arrange
       const state = store.getState();
-      const payload = { prompt: "pickup" };
+      const payload = { prompt: "offer" };
 
       // Act
       const newState = offerReducer(state, payload);
@@ -104,11 +104,11 @@ describe("offerReducer", function () {
       expect(yourInventory).to.deep.equal(state.facts.people[0].inventory);
     });
 
-    describe("when the prompt matches with 'pickup 1 apple'", function () {
+    describe("when the prompt matches with 'offer 1 apple'", function () {
       it("should clear possible prompts", function () {
         // Arrange
         const state = store.getState();
-        const payload = { prompt: "pickup 1 apple" };
+        const payload = { prompt: "offer 1 apple" };
 
         // Act
         const newState = offerReducer(state, payload);
@@ -121,7 +121,7 @@ describe("offerReducer", function () {
       it("should clear the prompt", function () {
         // Arrange
         const state = store.getState();
-        const payload = { prompt: "pickup 1 apple" };
+        const payload = { prompt: "offer 1 apple" };
 
         // Act
         const newState = offerReducer(state, payload);
@@ -134,7 +134,7 @@ describe("offerReducer", function () {
       it.skip("should change your inventory", function () {
         // Arrange
         const state = store.getState();
-        const payload = { prompt: "pickup 1 apple" };
+        const payload = { prompt: "offer 1 apple" };
 
         // Act
         const newState = offerReducer(state, payload);
@@ -158,7 +158,7 @@ describe("offerReducer", function () {
       it.skip("should change the room items", function () {
         // Arrange
         const state = store.getState();
-        const payload = { prompt: "pickup 1 apple" };
+        const payload = { prompt: "offer 1 apple" };
 
         // Act
         const newState = offerReducer(state, payload);
@@ -173,13 +173,13 @@ describe("offerReducer", function () {
       });
     });
 
-    describe.skip("when the prompt matches with 'pickup 20 apples'", function () {
-      it("should pickup as much as possible", function () {
+    describe.skip("when the prompt matches with 'offer 20 apples'", function () {
+      it("should offer as much as possible", function () {
         // Arrange
         const state = Object.assign({}, store.getState(), {
           activeRoom: "outside",
         });
-        const payload = { prompt: "pickup 20 apples" };
+        const payload = { prompt: "offer 20 apples" };
 
         // Act
         const newState = offerReducer(state, payload);
@@ -205,7 +205,7 @@ describe("offerReducer", function () {
         const state = Object.assign({}, store.getState(), {
           activeRoom: "outside",
         });
-        const payload = { prompt: "pickup 20 apples" };
+        const payload = { prompt: "offer 20 apples" };
 
         // Act
         const newState = offerReducer(state, payload);

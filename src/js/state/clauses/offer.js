@@ -5,12 +5,12 @@
  */
 
 /**
- * Clause to check available items for pickup.
+ * Clause to check available items for offer.
  *
  * @argument {import('../initial-state.js').State} state
  * @returns {Array<import('../initial-state.js').ValueFlowsEconomicResource>}
  */
-export function pickup(state) {
+export function offer(state) {
   return /** @type {Array<import('../initial-state.js').ValueFlowsEconomicResource>} */ (
     Object.values(state.facts)
       .filter((fact) => {

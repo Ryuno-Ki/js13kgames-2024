@@ -5,7 +5,7 @@
  */
 
 import { copy } from "../../helpers/copy.js";
-import { pickup } from "../clauses/pickup.js";
+import { offer } from "../clauses/offer.js";
 
 /**
  * Reducer to offer an item.
@@ -21,8 +21,8 @@ export function offerReducer(state, payload) {
   let [command, ...options] = prompt.trim().split(" ");
   prompt = cleanup(prompt);
 
-  if (prompt.startsWith("pickup")) {
-    possiblePrompts = maybePickupSomething(state).map((item) =>
+  if (prompt.startsWith("offer")) {
+    possiblePrompts = maybeOfferSomething(state).map((item) =>
       item.toLowerCase(),
     );
     const possibleItem = possiblePrompts.find((item) => {
@@ -50,14 +50,14 @@ function cleanup(commandOrOption) {
 }
 
 /**
- * Helper function to focus on "pickup" prompts.
+ * Helper function to focus on "offer" prompts.
  *
  * @private
  * @argument {import('../initial-state.js').State} state
  * @returns {Array<string>}
  */
-function maybePickupSomething(state) {
-  const resources = pickup(state);
+function maybeOfferSomething(state) {
+  const resources = offer(state);
   const possibleResources = resources.map(
     (resource) => resource["vf:name"][0].value,
   );

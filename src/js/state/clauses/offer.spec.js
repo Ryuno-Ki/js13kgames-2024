@@ -9,9 +9,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { meetAction } from "../actions/meet.js";
 import { resetAction } from "../actions/reset.js";
 import store from "../store.js";
-import { pickup } from "./pickup.js";
+import { offer } from "./offer.js";
 
-describe("pickup", function () {
+describe("offer", function () {
   beforeEach(async function () {
     await store.dispatch(resetAction());
   });
@@ -22,7 +22,7 @@ describe("pickup", function () {
       const state = store.getState();
 
       // Act
-      const items = pickup(state);
+      const items = offer(state);
 
       // Assert
       expect(items).to.deep.equal([]);
@@ -39,7 +39,7 @@ describe("pickup", function () {
       const state = store.getState();
 
       // Act
-      const items = pickup(state);
+      const items = offer(state);
 
       // Assert
       expect(items).toHaveLength(1);

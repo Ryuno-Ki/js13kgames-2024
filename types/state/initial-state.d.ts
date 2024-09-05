@@ -2,7 +2,7 @@
  * @typedef {'dark' | 'light' | 'system'} ColorScheme
  */
 /**
- * @typedef {'go' | 'pickup' | 'read' | 'use'} Command
+ * @typedef {'go' | 'offer' | 'read' | 'use'} Command
  */
 /**
  * @typedef {object} Item
@@ -120,7 +120,7 @@
 /** @type {State} */
 export const initialState: State;
 export type ColorScheme = "dark" | "light" | "system";
-export type Command = "go" | "pickup" | "read" | "use";
+export type Command = "go" | "offer" | "read" | "use";
 export type Item = {
   name: string;
   quantity: number;

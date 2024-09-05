@@ -15,7 +15,7 @@
  */
 
 /**
- * @typedef {'go' | 'pickup' | 'read' | 'use'} Command
+ * @typedef {'go' | 'offer' | 'read' | 'use'} Command
  */
 
 /**
