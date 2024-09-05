@@ -7,6 +7,7 @@
 import { generateEcologicalAgent } from "../helpers/generate-ecological-agent.js";
 import { generateFoaFPerson } from "../helpers/generate-foaf-person.js";
 import { generateResourceSpecification } from "../helpers/generate-resource-specification.js";
+import { generateSchemaGameLocation } from "../helpers/generate-schema-game-location.js";
 
 // See also: https://www.w3.org/TR/rdf11-concepts/
 // https://ns.inria.fr/emoca/
@@ -170,26 +171,7 @@ export const initialState = {
   facts: {
     "#Apple": generateResourceSpecification("Apple"),
     "#AppleTree": generateEcologicalAgent("AppleTree", [], "#Outside"),
-    "#Inn": /** @type {SchemaGameLocation} */ ({
-      "rdf:type": [
-        {
-          value: "https://schema.org/gameLocation",
-          type: "uri",
-        },
-      ],
-      "schema:geoTouches": [
-        {
-          value: "#Outside",
-          type: "uri",
-        },
-      ],
-      "schema:name": [
-        {
-          value: "Inn",
-          type: "literal",
-        },
-      ],
-    }),
+    "#Inn": generateSchemaGameLocation("Inn", ["#Outside"]),
     "#One": /** @type {ValueFlowsMeasure} */ ({
       "rdf:type": [
         { value: "https://w3id.org/valueflows/ont/vf#Measure", type: "uri" },
@@ -208,30 +190,7 @@ export const initialState = {
         },
       ],
     }),
-    "#Outside": /** @type {SchemaGameLocation} */ ({
-      "rdf:type": [
-        {
-          value: "https://schema.org/gameLocation",
-          type: "uri",
-        },
-      ],
-      "schema:geoTouches": [
-        {
-          value: "#Inn",
-          type: "uri",
-        },
-        {
-          value: "#Shop",
-          type: "uri",
-        },
-      ],
-      "schema:name": [
-        {
-          value: "Outside",
-          type: "literal",
-        },
-      ],
-    }),
+    "#Outside": generateSchemaGameLocation("#Outside", ["#Inn", "#Shop"]),
     "#RaiseAction": /** @type {ValueFlowsRaiseAction} */ ({
       "rdf:type": [
         {
@@ -240,26 +199,7 @@ export const initialState = {
         },
       ],
     }),
-    "#Shop": /** @type {SchemaGameLocation} */ ({
-      "rdf:type": [
-        {
-          value: "https://schema.org/gameLocation",
-          type: "uri",
-        },
-      ],
-      "schema:geoTouches": [
-        {
-          value: "#Outside",
-          type: "uri",
-        },
-      ],
-      "schema:name": [
-        {
-          value: "Shop",
-          type: "literal",
-        },
-      ],
-    }),
+    "#Shop": generateSchemaGameLocation("#Shop", ["#Outside"]),
     "#Wheat": generateResourceSpecification("Wheat"),
     "#Yu": generateFoaFPerson("Yu", [], "#Inn"),
     /*

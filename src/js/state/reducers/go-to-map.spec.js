@@ -83,7 +83,7 @@ describe("goToMapReducer", function () {
       ]
         .map((gameLocation) => gameLocation.value)
         .map((uri) => state.facts[uri])
-        .map((schemaPlace) => schemaPlace["schema:name"][0].value)
+        .map((schemaPlace) => schemaPlace["schema:name"][0].value.slice(1))
         .map((room) => room.toLowerCase());
 
       // Assert

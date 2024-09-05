@@ -64,7 +64,8 @@ function cleanup(commandOrOption) {
 function maybeGoSomewhere(state) {
   const room = go(state);
   const possibleRooms = room.map(
-    (schemaPlace) => schemaPlace["schema:name"][0].value,
+    // Remove the leading '#'
+    (schemaPlace) => schemaPlace["schema:name"][0].value.slice(1),
   );
   return possibleRooms;
 }
