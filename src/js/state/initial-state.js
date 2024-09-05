@@ -5,6 +5,7 @@
  */
 
 import { generateEcologicalAgent } from "../helpers/generate-ecological-agent.js";
+import { generateFoaFPerson } from "../helpers/generate-foaf-person.js";
 import { generateResourceSpecification } from "../helpers/generate-resource-specification.js";
 
 // See also: https://www.w3.org/TR/rdf11-concepts/
@@ -260,27 +261,7 @@ export const initialState = {
       ],
     }),
     "#Wheat": generateResourceSpecification("Wheat"),
-    "#Yu": /** @type {FoaFPerson} */ ({
-      "foaf:knows": /** @type {*} */ ([]),
-      "foaf:name": [
-        {
-          value: "Yu",
-          type: "literal",
-        },
-      ],
-      "rdf:type": [
-        {
-          value: "http://xmlns.com/foaf/0.1/Person",
-          type: "uri",
-        },
-      ],
-      "schema:gameLocation": [
-        {
-          value: "#Inn",
-          type: "uri",
-        },
-      ],
-    }),
+    "#Yu": generateFoaFPerson("Yu", [], "#Inn"),
     /*
     people: [
       {
