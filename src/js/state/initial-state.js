@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { generateEcologicalAgent } from "../helpers/generate-ecological-agent.js";
 import { generateResourceSpecification } from "../helpers/generate-resource-specification.js";
 
 // See also: https://www.w3.org/TR/rdf11-concepts/
@@ -167,14 +168,7 @@ export const initialState = {
   activeScene: "title-section",
   facts: {
     "#Apple": generateResourceSpecification("Apple"),
-    "#AppleTree": /** @type {ValueFlowsEcologicalAgent} */ ({
-      "rdf:type": [
-        {
-          value: "https://w3id.org/valueflows/ont/vf#EcologicalAgent",
-          type: "uri",
-        },
-      ],
-    }),
+    "#AppleTree": generateEcologicalAgent("AppleTree", [], "#Outside"),
     "#Inn": /** @type {SchemaGameLocation} */ ({
       "rdf:type": [
         {
