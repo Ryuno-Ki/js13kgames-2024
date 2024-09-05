@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { generateResourceSpecification } from "../helpers/generate-resource-specification.js";
+
 // See also: https://www.w3.org/TR/rdf11-concepts/
 // https://ns.inria.fr/emoca/
 // https://vocab.org/relationship/
@@ -164,15 +166,7 @@ export const initialState = {
   activeScenario: "",
   activeScene: "title-section",
   facts: {
-    "#Apple": /** @type {ValueFlowsResourceSpecification} */ ({
-      "rdf:type": [
-        {
-          value: "https://w3id.org/valueflows/ont/vf#ResourceSpecification",
-          type: "uri",
-        },
-      ],
-      "vf:name": [{ value: "Apple", type: "literal" }],
-    }),
+    "#Apple": generateResourceSpecification("Apple"),
     "#AppleTree": /** @type {ValueFlowsEcologicalAgent} */ ({
       "rdf:type": [
         {
@@ -271,15 +265,7 @@ export const initialState = {
         },
       ],
     }),
-    "#Wheat": /** @type {ValueFlowsResourceSpecification} */ ({
-      "rdf:type": [
-        {
-          value: "https://w3id.org/valueflows/ont/vf#ResourceSpecification",
-          type: "uri",
-        },
-      ],
-      "vf:name": [{ value: "Wheat", type: "literal" }],
-    }),
+    "#Wheat": generateResourceSpecification("Wheat"),
     "#Yu": /** @type {FoaFPerson} */ ({
       "foaf:knows": /** @type {*} */ ([]),
       "foaf:name": [
