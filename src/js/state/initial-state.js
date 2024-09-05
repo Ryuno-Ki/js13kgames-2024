@@ -6,6 +6,7 @@
 
 import { generateEcologicalAgent } from "../helpers/generate-ecological-agent.js";
 import { generateFoaFPerson } from "../helpers/generate-foaf-person.js";
+import { generateMeasure } from "../helpers/generate-measure.js";
 import { generateResourceSpecification } from "../helpers/generate-resource-specification.js";
 import { generateSchemaGameLocation } from "../helpers/generate-schema-game-location.js";
 
@@ -172,24 +173,10 @@ export const initialState = {
     "#Apple": generateResourceSpecification("Apple"),
     "#AppleTree": generateEcologicalAgent("AppleTree", [], "#Outside"),
     "#Inn": generateSchemaGameLocation("Inn", ["#Outside"]),
-    "#One": /** @type {ValueFlowsMeasure} */ ({
-      "rdf:type": [
-        { value: "https://w3id.org/valueflows/ont/vf#Measure", type: "uri" },
-      ],
-      "vf:hasNumericalValue": [
-        {
-          value: 1,
-          type: "literal",
-        },
-      ],
-      "vf:hasUnit": [
-        {
-          value:
-            "http://www.ontology-of-units-of-measure.org/resource/om-2/one",
-          type: "uri",
-        },
-      ],
-    }),
+    "#One": generateMeasure(
+      1,
+      "http://www.ontology-of-units-of-measure.org/resource/om-2/one",
+    ),
     "#Outside": generateSchemaGameLocation("#Outside", ["#Inn", "#Shop"]),
     "#RaiseAction": /** @type {ValueFlowsRaiseAction} */ ({
       "rdf:type": [
