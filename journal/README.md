@@ -41,3 +41,4 @@ I plan to copy-paste it to the Fediverse and on Itch.io as well.
 - [09th September 2024](./2024-09-09.md)
 - [10th September 2024](./2024-09-10.md)
 - [11th September 2024](./2024-09-11.md)
+- [12th September 2024](./2024-09-12.md)
